@@ -1,0 +1,28 @@
+1) Sorts
+ a) Thunder -> charge(position) + realease()
+ b) Fire -> throw(speed,direction)
+ c) Shield -> activate() (timer et ensuite relachement)
+
+2) Ennemis 
+ -> tous ont rés./faibl. face à tel ou tel élément
+ -> XP basé sur caractéristiques
+ a) corps-à-corps
+ b) tir random
+ c) tir tête -> joueur doit esquiver
+ d) bonus
+
+2 bis) Vagues
+ -> 3 facteurs 
+ a) type
+ b) nbr de chaque type
+ c) niveau de chaqe ennemi
+
+3) Objets 
+ a) Potions de soin
+ b) chapeau avec bonus -> placer la tête dessous
+ c) épée à ramasser au sol
+
+4) Menu
+ -> après chaque vague
+ -> 5-10 sec. pour activer le menu à la main
+ -> si activé, upgrade de sorts avec XP (3 options)
