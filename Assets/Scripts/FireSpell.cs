@@ -16,7 +16,7 @@ public class FireSpell : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        //fireball = new SphereCollider();
+        fireball = GetComponent<Rigidbody>();
         Debug.Log("START");
 	}
 	
@@ -24,7 +24,7 @@ public class FireSpell : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButtonUp(0))
         {
-            Throw(new Vector3(0.0f, 1.0f, 0.0f),new Vector3(0.0f,0.0f,1.0f),1.0f);
+            Throw(Input.mousePosition, new Vector3(0.0f,0.0f,1.0f),1.0f);
         }
 	}
 }

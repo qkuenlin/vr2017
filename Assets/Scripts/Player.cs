@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 
     float healthPoints;
     uint experiencePoints;
+    Vector3 position;
 
     void Damage(float damage)
     {
@@ -26,15 +27,40 @@ public class Player : MonoBehaviour {
         Debug.Log("You're dead, mate");
     }
 
+    Vector3 HeadPosition()
+    {
+        return position+new Vector3(0,2,0);
+    }
+
 	// Use this for initialization
 	void Start () {
         healthPoints = 100;
         experiencePoints = 0;
+        position.Set(0, 0, 0);
 
+        fire = GetComponent<FireSpell>();
+        thunder = GetComponent<ThunderSpell>();
+        shield = GetComponent<ShiedlSpell>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        Move(x, z);
+        UpdateTransform();
 	}
+
+    void Move(float x, float z)
+    {
+        position.Set(0.3f*x,0.0f,0.3f*z);
+
+    }
+
+    void UpdateTransform()
+    {
+        transform.position = HeadPosition();
+    }
+
+
 }
