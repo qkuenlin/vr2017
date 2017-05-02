@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Fireball : Object
+{
+    public Transform transform;
+    public SphereCollider collider;
+}
+
 public class FireSpell : MonoBehaviour {
     public uint level;
-    public Rigidbody fireball;
+    public Fireball fireball;
 
     void Throw(Vector3 origin, Vector3 direction, float speed)
     {
         Debug.Log("THROW !!");
-        Rigidbody clone;
+        Fireball clone;
         clone = Instantiate(fireball);
-        clone.position = origin;
+        clone.transform.
         clone.velocity = direction.normalized * speed;
     }
 	// Use this for initialization
