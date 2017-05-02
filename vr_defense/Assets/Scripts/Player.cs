@@ -8,10 +8,15 @@ public class Player : MonoBehaviour {
     public ShiedlSpell shield;
 
     float healthPoints;
-    uint experiencePoints;
+    float experiencePoints;
     Vector3 position;
 
-    void Damage(float damage)
+    public void GiveXP(float XP)
+    {
+        experiencePoints += XP;
+    }
+
+    void Hit(float damage)
     {
         damage -= shield.ShieldFactor();
         healthPoints -= damage;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThunderSpell : MonoBehaviour {
+public class ThunderSpell : Spell {
 
     float chargeStart;
     bool charging = false;

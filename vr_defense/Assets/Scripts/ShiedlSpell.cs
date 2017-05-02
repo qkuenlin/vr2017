@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShiedlSpell : MonoBehaviour {
+public class ShiedlSpell : Spell {
 
     bool activated = false;
     public uint level;
