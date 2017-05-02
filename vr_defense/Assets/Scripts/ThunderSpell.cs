@@ -9,6 +9,9 @@ public class ThunderSpell : MonoBehaviour {
 
     const float maxCharge = 5.0f;
 
+    public SphereCollider collider;
+
+
     float targetRadius()
     {
         float chargeTime = Time.time - chargeStart;
@@ -23,15 +26,29 @@ public class ThunderSpell : MonoBehaviour {
     {
         if (!charging)
         {
+            Debug.Log("Starting charge");
             charging = true;
             chargeStart = Time.time;//time since start of game
         }
-        //DrawTarget();
+        if (Time.time - chargeStart > maxCharge)
+        {
+            Release();
+        }
+        else
+        {
+            collider.transform.position = target;
+            collider.transform.localScale = new Vector3(1f, 1f, 1f);
+            collider.transform.localScale *= targetRadius();
+            collider.radius = targetRadius();
+        }
     }
 
     void Release()
     {
+        Debug.Log("realeased");
         charging = false;
+        collider.transform.localScale = new Vector3(0f, 0f, 0f);
+        collider.radius = 0f;
         //effects and attacks
     }
 
@@ -42,6 +59,14 @@ public class ThunderSpell : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if (Input.GetMouseButton(1))
+        {
+            Vector3 target = Input.mousePosition;
+            target.Set(10f*(target.x/Screen.width-0.5f),0f,7f+10f*(target.y/Screen.height-0.5f));
+            Charge(target);
+        }else if (Input.GetMouseButtonUp(1))
+        {
+            Release();
+        }
+    }
 }
