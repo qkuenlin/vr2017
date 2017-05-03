@@ -5,8 +5,22 @@ using UnityEngine;
 public class Spell : MonoBehaviour {
 
     public Player wizard;
+    protected uint level = 1;
+    //public Rigidbody fireball;
+    protected float power = 0.0f;
 
-    public string SpellType()
+    public void notifyHit(Minion minion)
+    {
+        Debug.Log("fireSpell notified");
+        wizard.GiveXP(minion.Hit(Damage(), SpellType()));
+    }
+
+    virtual public float Damage()
+    {
+        return level * power;
+    }
+
+    virtual public string SpellType()
     {
         return "none";
     }

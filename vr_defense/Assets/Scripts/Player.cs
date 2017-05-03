@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
 
     public void GiveXP(float XP)
     {
+        Debug.Log("Player received " + XP + "XP");
         experiencePoints += XP;
     }
 
@@ -43,9 +44,9 @@ public class Player : MonoBehaviour {
         experiencePoints = 0;
         position.Set(0, 0, 0);
 
-        fire = GetComponent<FireSpell>();
+        /*fire = GetComponent<FireSpell>();
         thunder = GetComponent<ThunderSpell>();
-        shield = GetComponent<ShiedlSpell>();
+        shield = GetComponent<ShiedlSpell>();*/
 	}
 	
 	// Update is called once per frame

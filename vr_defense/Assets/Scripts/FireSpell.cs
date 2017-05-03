@@ -4,30 +4,11 @@ using UnityEngine;
 
 
 public class FireSpell : Spell {
-    public uint level;
-    //public Rigidbody fireball;
-    const float power = 1.0f;
-
+   
     public fireBall fireball;
-
-    float SpellDamage()
-    {
-        return level * power;
-    }
-
-    public void notifyHit(Minion minion)
-    {
-        wizard.GiveXP(minion.Hit(SpellDamage(), this));
-    }
 
     void Throw(Vector3 origin, Vector3 direction, float speed)
     {
-        //Debug.Log("THROW !!");
-        /*Rigidbody clone = Instantiate(fireball);
-        clone.transform.position = origin;
-        clone.AddForce(direction.normalized * speed);
-        */
-
         fireBall clone = Instantiate(fireball);
         clone.body.transform.position = origin;
         clone.body.AddForce(direction.normalized * speed);
@@ -36,14 +17,17 @@ public class FireSpell : Spell {
     }
 	// Use this for initialization
 	void Start () {
-        //Debug.Log("START");
+        power = 1f;
 	}
-	
-   
+
+    public override string SpellType() 
+    {
+        return "fire";
+    }
 
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
         if (Input.GetMouseButtonUp(0))
         {
             Vector3 mouse = Input.mousePosition;

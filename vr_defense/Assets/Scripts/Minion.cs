@@ -14,12 +14,13 @@ public class Minion : MonoBehaviour {
         return level;
     }
 
-    public float Hit(float damage, Spell spell)
+    public float Hit(float damage, string spellType)
     {
-        if (spell.SpellType() != resistance)
+        Debug.Log("MINION HIT ! received "+damage+" damage of type "+spellType);
+        if (spellType != resistance)
         {
             HealthPoints -= damage;
-            if (HealthPoints < 0f)
+            if (HealthPoints <= 0f)
             {
                 Die();
                 return ExperiencePoints();
@@ -38,28 +39,18 @@ public class Minion : MonoBehaviour {
     {
         Debug.Log("a minion has died");
         PopItem();
-        Destroy(gameObject, 1.0f);//die after one second
+        Destroy(gameObject, 0.5f);//die after half a second
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
-        if (col.gameObject.GetType() == typeof(Minion))
-        {
-            Debug.Log("MINION !");
-            // Collide((Minion)col.gameObject);
-        }
-        //Collide(col.gameObject);
-    }
 
 
 	// Use this for initialization
 	void Start()
     {
         HealthPoints = 1;
-        level = 0;
+        level = 1;
         Debug.Log("created a minion");
-        body.velocity = new Vector3(0f, 0f, -1f);
+        //body.velocity = new Vector3(0f, 0f, -1f);
     }
 	
 	// Update is called once per frame

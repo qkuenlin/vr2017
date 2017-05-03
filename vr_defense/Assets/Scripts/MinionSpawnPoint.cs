@@ -8,13 +8,13 @@ public class MinionSpawnPoint : MonoBehaviour {
     public Minion minion;
 
     float spawnTime = 0f;
-    public const float spawnInterval = 5.0f;
+    public const float spawnInterval = 0.5f;
 
     void Spawn()
     {
         Minion clone = Instantiate(minion);
         clone.body.transform.position = transform.position;
-        clone.body.velocity = new Vector3(0f, 0f, -0.5f);
+        clone.body.velocity = new Vector3(0f, 0f, -1.5f);
     }
     // Use this for initialization
     void Start()
@@ -32,7 +32,7 @@ public class MinionSpawnPoint : MonoBehaviour {
         if (Time.time - spawnTime > spawnInterval)
         {
             spawnTime = Time.time;
-            //Spawn();
+            Spawn();
         }
     }
 }
