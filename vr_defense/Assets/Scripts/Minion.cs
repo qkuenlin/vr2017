@@ -41,24 +41,30 @@ public class Minion : MonoBehaviour {
         Destroy(gameObject, 1.0f);//die after one second
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
-        Debug.Log(gameObject.name +" collided with " + col.gameObject.name);
-        //player.Hit(MinionDamage());
+        Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
+        if (col.gameObject.GetType() == typeof(Minion))
+        {
+            Debug.Log("MINION !");
+            // Collide((Minion)col.gameObject);
+        }
+        //Collide(col.gameObject);
     }
+
 
 	// Use this for initialization
 	void Start()
     {
         HealthPoints = 1;
         level = 0;
-
-        body.velocity.Set(0f,0f,-1f);
         Debug.Log("created a minion");
+        body.velocity = new Vector3(0f, 0f, -1f);
     }
 	
 	// Update is called once per frame
 	void Update () {
+        //transform.position += new Vector3(0f, 0f, -1f*Time.deltaTime );
        // Debug.Log(body.transform.position);
 	}
 }

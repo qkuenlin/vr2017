@@ -15,6 +15,11 @@ public class FireSpell : Spell {
         return level * power;
     }
 
+    public void notifyHit(Minion minion)
+    {
+        wizard.GiveXP(minion.Hit(SpellDamage(), this));
+    }
+
     void Throw(Vector3 origin, Vector3 direction, float speed)
     {
         //Debug.Log("THROW !!");
@@ -35,6 +40,7 @@ public class FireSpell : Spell {
 	}
 	
    
+
 
 	// Update is called once per frame
 	void Update () {

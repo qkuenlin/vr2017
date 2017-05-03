@@ -13,16 +13,24 @@ public class fireBall : MonoBehaviour {
         source = spell;
     }
 
-    void OnCollisionEnter(Collision col)
+   
+    void OnTriggerEnter(Collider col)
     {
-        Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
-        Collide(col.gameObject);
+        //Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
+        Debug.Log("fireBall hit object of type " + col.gameObject.GetType());
+        if (col.gameObject.GetType() == typeof(Minion))
+        {
+            Debug.Log("MINION !");
+            // Collide((Minion)col.gameObject);
+        }
+       // Collide(col.gameObject);
     }
+
 
     void Collide(Minion minion)
     {
         Debug.Log("FIRE HIT ");
-        //wizard.GiveXP(minion.Hit(SpellDamage(), this));
+        source.notifyHit(minion);
     }
 
     void Collide(GameObject gameObject)
