@@ -11,7 +11,6 @@ public class Spell : MonoBehaviour {
 
     public void notifyHit(Minion minion)
     {
-        Debug.Log("fireSpell notified");
         wizard.GiveXP(minion.Hit(Damage(), SpellType()));
     }
 
