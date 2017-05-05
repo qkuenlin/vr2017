@@ -45,7 +45,7 @@ public class ThunderBall : SpellProjectile {
     {
         if (!charging)
         {
-            Debug.Log("Starting charge");
+           // Debug.Log("Starting charge");
             charging = true;
             chargeStart = Time.time;//time since start of game
         }
@@ -64,7 +64,7 @@ public class ThunderBall : SpellProjectile {
 
     void Release()
     {
-        Debug.Log("realeased");
+       // Debug.Log("realeased");
         ExplosionDamage();
         charging = false;
         sphereCollider.transform.localScale = new Vector3(0f, 0f, 0f);

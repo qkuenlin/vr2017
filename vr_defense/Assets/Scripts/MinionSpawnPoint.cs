@@ -6,6 +6,7 @@ public class MinionSpawnPoint : MonoBehaviour {
 
     uint level = 1;
     public Minion minion;
+    public BonusMinion bonusMinion;
 
     float spawnTime = 0f;
     float spawnInterval = 0.5f;
@@ -37,7 +38,15 @@ public class MinionSpawnPoint : MonoBehaviour {
     /**Spawns one minion. Velocity must still be defined depending on level or something*/
     void Spawn()
     {
-        Minion clone = Instantiate(minion);
+        float p = Random.value;
+        Minion clone;
+        if (p < 0.9)//10% chance that the new minion is a bonus one
+        {
+            clone = Instantiate(minion);
+        }else
+        {
+            clone = Instantiate(bonusMinion); 
+        }
         clone.body.transform.position = transform.position;
         clone.body.velocity = new Vector3(0f, 0f, -1.5f);
         clone.SetSource(this);

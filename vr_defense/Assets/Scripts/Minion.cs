@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minion : MonoBehaviour {
+public abstract class Minion : MonoBehaviour {
 
     public Rigidbody body;
+
     float HealthPoints;
     uint level;
     string resistance = "none";
@@ -26,7 +27,7 @@ public class Minion : MonoBehaviour {
 
     public float Hit(float damage, string spellType)
     {
-        Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
+        //Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
         if (spellType != resistance)
         {
             HealthPoints -= damage;
@@ -40,21 +41,18 @@ public class Minion : MonoBehaviour {
         return 0f;
     }
 
-    void PopItem()//TODO
-    {
-
-    }
+    
 
     void Die()
     {
         dead = true;
         //Debug.Log("a minion has died");
-        PopItem();
+        AdditionalEffects();
         source.NotifyMinionDeath();
         Destroy(gameObject, 0.5f);//die after half a second
     }
 
-
+    virtual protected void AdditionalEffects() { }
 
 	// Use this for initialization
 	void Start()
