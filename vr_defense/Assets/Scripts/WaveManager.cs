@@ -9,7 +9,7 @@ public class WaveManager : MonoBehaviour {
     public MinionSpawnPoint randShootSpawn;
     public MinionSpawnPoint headShootSpawn;
 
-    bool paused = true;
+    //bool paused = true;
 
     bool AllDone()
     {
@@ -50,7 +50,7 @@ public class WaveManager : MonoBehaviour {
         }
     }
 
-    public void Pause()
+   /* public void Pause()
     {
         paused = true;
     }
@@ -58,7 +58,7 @@ public class WaveManager : MonoBehaviour {
     public void Resume()
     {
         paused = false;
-    }
+    }*/
 
     public bool Done()
     {

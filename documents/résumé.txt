@@ -1,5 +1,5 @@
 1) Sorts
- a) Thunder -> charge(position) + realease()
+ a) Thunder -> charge(position) + release()
  b) Fire -> throw(speed,direction)
  c) Shield -> activate() (timer et ensuite relachement)
 

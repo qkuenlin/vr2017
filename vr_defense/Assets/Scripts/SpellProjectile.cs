@@ -21,10 +21,8 @@ public class SpellProjectile : MonoBehaviour {
         return source.Damage();
     }
 
-    void OnTriggerEnter(Collider col)
+    virtual protected void OnTriggerEnter(Collider col)
     {
-        //Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
-
         Minion minion = (Minion)col.GetComponent("Minion");
         if (minion != null)
         {
@@ -33,12 +31,12 @@ public class SpellProjectile : MonoBehaviour {
         }
     }
 
-    void SpecialEffect()//explostion, burn, etc. must be defined in the actual spells
+    virtual protected void SpecialEffect()//explostion, burn, etc. must be defined in the actual spells
     {
 
     }
 
-    void Collide(Minion minion)
+    protected void Collide(Minion minion)
     {
         source.notifyHit(minion);
         SpecialEffect();

@@ -26,7 +26,7 @@ public class Minion : MonoBehaviour {
 
     public float Hit(float damage, string spellType)
     {
-        //Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
+        Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
         if (spellType != resistance)
         {
             HealthPoints -= damage;
