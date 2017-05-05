@@ -2,29 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireSpell : MonoBehaviour {
-    public uint level;
-    public Rigidbody fireball;
 
-    void Throw(Vector3 origin, Vector3 direction, float speed)
+public class FireSpell : Spell {
+   
+    public fireBall fireball;
+
+    public void Throw(Vector3 origin, Vector3 direction, float speed)
     {
-        Debug.Log("THROW !!");
-        Rigidbody clone;
-        clone = Instantiate(fireball);
-        clone.position = origin;
-        clone.velocity = direction.normalized * speed;
+        fireBall clone = Instantiate(fireball);
+        clone.body.transform.position = origin;
+        clone.body.AddForce(direction.normalized * speed);
+        clone.SetSource(this);
+
     }
 	// Use this for initialization
 	void Start () {
-        fireball = GetComponent<Rigidbody>();
-        Debug.Log("START");
+        power = 1f;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    public override string SpellType() 
+    {
+        return "fire";
+    }
+
+
+    // Update is called once per frame
+    void Update () {
         if (Input.GetMouseButtonUp(0))
         {
-            Throw(Input.mousePosition, new Vector3(0.0f,0.0f,1.0f),1.0f);
+            Vector3 mouse = Input.mousePosition;
+            Vector3 shootDirection = new Vector3(0f, (mouse.y - Screen.height / 2f) / Screen.height, 1f);
+
+           // Debug.Log(Input.mousePosition);
+            Debug.Log(shootDirection);
+            Debug.Log(transform.position);
+            
+            Throw(transform.position, shootDirection.normalized,10.0f/Time.deltaTime);
         }
 	}
 }

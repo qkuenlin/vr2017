@@ -8,10 +8,16 @@ public class Player : MonoBehaviour {
     public ShiedlSpell shield;
 
     float healthPoints;
-    uint experiencePoints;
+    float experiencePoints;
     Vector3 position;
 
-    void Damage(float damage)
+    public void GiveXP(float XP)
+    {
+        Debug.Log("Player received " + XP + "XP");
+        experiencePoints += XP;
+    }
+
+    void Hit(float damage)
     {
         damage -= shield.ShieldFactor();
         healthPoints -= damage;
@@ -38,9 +44,9 @@ public class Player : MonoBehaviour {
         experiencePoints = 0;
         position.Set(0, 0, 0);
 
-        fire = GetComponent<FireSpell>();
+        /*fire = GetComponent<FireSpell>();
         thunder = GetComponent<ThunderSpell>();
-        shield = GetComponent<ShiedlSpell>();
+        shield = GetComponent<ShiedlSpell>();*/
 	}
 	
 	// Update is called once per frame
