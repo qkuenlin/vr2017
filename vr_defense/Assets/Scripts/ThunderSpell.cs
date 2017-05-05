@@ -2,46 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThunderSpell : MonoBehaviour {
+public class ThunderSpell : Spell {
 
-    float chargeStart;
-    bool charging = false;
 
-    const float maxCharge = 5.0f;
-
-    float targetRadius()
-    {
-        float chargeTime = Time.time - chargeStart;
-        if (charging && chargeTime < maxCharge)
-        {
-            return Mathf.Max(0.0f, chargeTime / 5.0f);
-        }
-        return 0.0f;
-    }
-
-    void Charge(Vector3 target)
-    {
-        if (!charging)
-        {
-            charging = true;
-            chargeStart = Time.time;//time since start of game
-        }
-        //DrawTarget();
-    }
-
-    void Release()
-    {
-        charging = false;
-        //effects and attacks
-    }
+    public ThunderBall thunderBall;
 
 	// Use this for initialization
 	void Start () {
-		
+        power = 1f;
+        Instantiate(thunderBall);
+        thunderBall.SetSource(this);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public override string SpellType()
+    {
+        return "thunder";
+    }
+
+    // Update is called once per frame
+    void Update () {
+    }
 }

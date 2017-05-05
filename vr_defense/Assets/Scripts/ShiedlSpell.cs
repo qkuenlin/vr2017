@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShiedlSpell : MonoBehaviour {
+public class ShiedlSpell : Spell {
 
     bool activated = false;
-    public uint level;
     public const float strength = 10.0f;
 
     public float ShieldFactor()
