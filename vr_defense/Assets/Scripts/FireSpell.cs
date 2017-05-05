@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
+=======
+
+public class FireSpell : Spell {
+   
+    public fireBall fireball;
+>>>>>>> master
 
 public class FireSpell : Spell {
    
@@ -34,9 +41,13 @@ public class FireSpell : Spell {
             Vector3 shootDirection = new Vector3(0f, (mouse.y - Screen.height / 2f) / Screen.height, 1f);
 
            // Debug.Log(Input.mousePosition);
+<<<<<<< HEAD
             Debug.Log(shootDirection);
             Debug.Log(transform.position);
             
+=======
+            //Debug.Log(shootDirection);
+>>>>>>> master
             Throw(transform.position, shootDirection.normalized,10.0f/Time.deltaTime);
         }
 	}

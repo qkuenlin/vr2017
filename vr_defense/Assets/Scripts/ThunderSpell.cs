@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class ThunderSpell : Spell {
 
-    float chargeStart;
-    bool charging = false;
 
-    const float maxCharge = 5.0f;
+    public ThunderBall thunderBall;
 
+<<<<<<< HEAD
     public SphereCollider collider;
 
 
@@ -21,9 +20,18 @@ public class ThunderSpell : Spell {
         }
         return 0.0f;
     }
+=======
+	// Use this for initialization
+	void Start () {
+        power = 1f;
+        Instantiate(thunderBall);
+        thunderBall.SetSource(this);
+	}
+>>>>>>> master
 
-    void Charge(Vector3 target)
+    public override string SpellType()
     {
+<<<<<<< HEAD
         if (!charging)
         {
             Debug.Log("Starting charge");
@@ -69,4 +77,12 @@ public class ThunderSpell : Spell {
             Release();
         }
     }
+=======
+        return "thunder";
+    }
+
+    // Update is called once per frame
+    void Update () {
+    }
+>>>>>>> master
 }
