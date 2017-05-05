@@ -30,13 +30,5 @@ public class BonusMinion : Minion {
     {
         PopItem();
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

@@ -47,8 +47,13 @@ public class MinionSpawnPoint : MonoBehaviour {
         {
             clone = Instantiate(bonusMinion); 
         }
-        clone.body.transform.position = transform.position;
-        clone.body.velocity = new Vector3(0f, 0f, -1.5f);
+
+        Vector2 inCircle = Random.insideUnitCircle;
+        Vector3 randPos = new Vector3();
+        randPos.Set(inCircle.x, 0f, inCircle.y);
+        
+        clone.body.transform.position = transform.position+randPos;
+       // clone.body.velocity = new Vector3(0f, 0f, -1.5f);
         clone.SetSource(this);
 
     }

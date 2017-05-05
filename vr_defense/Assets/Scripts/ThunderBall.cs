@@ -6,7 +6,8 @@ public class ThunderBall : SpellProjectile {
     float chargeStart;
     bool charging = false;
 
-    const float maxCharge = 5.0f;
+    float maxCharge = 4.0f;
+    float radiusSpeed = 0.5f;//speed at which the radius increase (radius = radiusSpeed*chargeTime)
 
     public SphereCollider sphereCollider;
 
@@ -31,7 +32,7 @@ public class ThunderBall : SpellProjectile {
         float chargeTime = Time.time - chargeStart;
         if (charging && chargeTime < maxCharge)
         {
-            return Mathf.Max(0.0f, chargeTime );
+            return Mathf.Max(0.0f, chargeTime*radiusSpeed );
         }
         return 0.0f;
     }
