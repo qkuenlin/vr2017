@@ -13,11 +13,6 @@ public class Player : MonoBehaviour {
 
     public void GiveXP(float XP)
     {
-<<<<<<< HEAD
-        Debug.Log("Player received " + XP + "XP");
-=======
-       // Debug.Log("Player received " + XP + "XP");
->>>>>>> master
         experiencePoints += XP;
     }
 

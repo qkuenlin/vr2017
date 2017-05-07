@@ -9,18 +9,27 @@ public class KinectSpellControl : MonoBehaviour
 {
 
     public BodySourceManager bsm;
+
+    [Range(0.00001f, 1)]
+    public float expSmoothWeight = 0.1f;
+
+    public Vector3 offset = Vector3.zero;
+
     public FireSpell fs;
+    
+    private Vector3[] HandPreviousPos;
 
-    private bool rightHandClosed;
-    private CameraSpacePoint rightHandPreviousPos;
-
-    private bool leftHandClosed;
-    private CameraSpacePoint leftHandPreviousPos;
+    private bool[] HandFireBall;
+    private bool[] HandLightning;
+    private bool[] HandShield;
 
     // Use this for initialization
     void Start()
     {
-        rightHandClosed = false;
+        HandFireBall = new bool[]{false, false};
+        HandLightning = new bool[] { false, false };
+        HandShield = new bool[] { false, false };
+        HandPreviousPos = new Vector3[2];
     }
 
     // Update is called once per frame
@@ -43,58 +52,63 @@ public class KinectSpellControl : MonoBehaviour
                 break;
             }
         }
-        
-        if(data[bodyNbr].HandRightState.Equals(HandState.Closed))
+
+        /* RIGHT HAND MANAGER */
+        HandManager(data[bodyNbr].HandRightState, data[bodyNbr].Joints[JointType.HandRight], 0);
+
+        /* LEFT HAND MANAGER */
+        HandManager(data[bodyNbr].HandLeftState, data[bodyNbr].Joints[JointType.HandLeft], 1);
+    }
+
+    void HandManager(HandState hs, Windows.Kinect.Joint hand, int w_h)
+    {
+        CameraSpacePoint pos = hand.Position;
+        Vector3 newPos = new Vector3(pos.X, pos.Y, pos.Z);
+        newPos += offset;
+        if (hand.TrackingState == TrackingState.Tracked)
+            newPos = Vector3.Lerp(HandPreviousPos[w_h], newPos, expSmoothWeight * Time.deltaTime * 60);
+        else
+            newPos = Vector3.Lerp(HandPreviousPos[w_h], newPos, (expSmoothWeight * Time.deltaTime * 60 * 0.2f));
+
+
+        if (HandLightning[w_h]) LightningManager(hs, hand, w_h);
+        else if (HandFireBall[w_h]) FireBallManager(hs, newPos, w_h);
+        else if (HandShield[w_h]) ShieldManager(hs, hand, w_h);
+
+
+
+
+        if (hs.Equals(HandState.Closed))
         {
-            rightHandClosed = true;
-        }
-        if (rightHandClosed && data[bodyNbr].HandRightState.Equals(HandState.Open))
-        {
-            CameraSpacePoint currentPosition = data[bodyNbr].Joints[JointType.HandRight].Position;
-            
-            Debug.Log("Throw Fireball!!!!");
-            Vector3 position = new Vector3(currentPosition.X, currentPosition.Y+2, 1.0f);
-            float diffX = currentPosition.X - rightHandPreviousPos.X;
-            float diffY = currentPosition.Y - rightHandPreviousPos.Y;
-            float diffZ = -currentPosition.Z + rightHandPreviousPos.Z;
-            Vector3 direction = new Vector3(diffX, diffY, diffZ);
-            float speed = 15 * (diffX * diffX + diffY * diffY + 2 * diffZ * diffZ);
-            if (speed < 1 / Time.deltaTime) speed = 1 / Time.deltaTime;
-
-            Debug.Log(position);
-            Debug.Log(speed);
-
-            fs.Throw(position, direction.normalized, speed);
-            rightHandClosed = false;
-        }
-
-        if (data[bodyNbr].HandLeftState.Equals(HandState.Closed))
-        {
-            leftHandClosed = true;
-        }
-        if (leftHandClosed && data[bodyNbr].HandLeftState.Equals(HandState.Open))
-        {
-            CameraSpacePoint currentPosition = data[bodyNbr].Joints[JointType.HandLeft].Position;
-
-            Debug.Log("Throw Fireball!!!!");
-            Vector3 position = new Vector3(currentPosition.X, currentPosition.Y + 2, 1.0f);
-            float diffX = currentPosition.X - leftHandPreviousPos.X;
-            float diffY = currentPosition.Y - leftHandPreviousPos.Y;
-            float diffZ = -currentPosition.Z + leftHandPreviousPos.Z;
-            Vector3 direction = new Vector3(diffX, diffY, diffZ);
-            float speed = 15 * (diffX * diffX + diffY * diffY + 2 * diffZ * diffZ);
-            if (speed < 1 / Time.deltaTime) speed = 1 / Time.deltaTime;
-
-            Debug.Log(position);
-            Debug.Log(speed);
-
-            fs.Throw(position, direction.normalized, speed);
-            leftHandClosed = false;
+            HandFireBall[w_h] = true;
         }
 
-        leftHandPreviousPos = data[bodyNbr].Joints[JointType.HandLeft].Position;
-        rightHandPreviousPos = data[bodyNbr].Joints[JointType.HandRight].Position;
+        HandPreviousPos[w_h] = newPos;
+    }
 
+    void LightningManager(HandState hs, Windows.Kinect.Joint hand, int w_h)
+    {
+
+    }
+
+    void FireBallManager(HandState hs, Vector3 pos, int w_h)
+    {
+        if (hs.Equals(HandState.Open))
+        {
+            float diffX = pos.x - HandPreviousPos[w_h].x;
+            float diffY = pos.y - HandPreviousPos[w_h].y;
+            float diffZ = -pos.z + HandPreviousPos[w_h].z;
+            Vector3 direction = new Vector3(diffX, diffY, diffZ).normalized;
+            float speed = 20 * (diffX * diffX + diffY * diffY + diffZ * diffZ);
+            if (speed < 1.0f / Time.deltaTime) speed = 1.0f / Time.deltaTime;
+
+            fs.Throw(pos, direction, speed);
+            HandFireBall[w_h] = false;
+        }
+    }
+
+    void ShieldManager(HandState hs, Windows.Kinect.Joint hand, int w_h)
+    {
 
     }
 }

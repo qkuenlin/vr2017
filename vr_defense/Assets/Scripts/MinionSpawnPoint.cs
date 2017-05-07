@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MinionSpawnPoint : MonoBehaviour {
-
-<<<<<<< HEAD
-    public uint level;
-    public Minion minion;
-
-    float spawnTime = 0f;
-    public const float spawnInterval = 0.5f;
-
-=======
+    
     uint level = 1;
     public Minion minion;
 
@@ -43,24 +35,12 @@ public class MinionSpawnPoint : MonoBehaviour {
     }
 
     /**Spawns one minion. Velocity must still be defined depending on level or something*/
->>>>>>> master
     void Spawn()
     {
         Minion clone = Instantiate(minion);
         clone.body.transform.position = transform.position;
         clone.body.velocity = new Vector3(0f, 0f, -1.5f);
-<<<<<<< HEAD
-    }
-    // Use this for initialization
-    void Start()
-    {
-        //Debug.Log("START");
-        Spawn();
-    }
 
-
-
-=======
         clone.SetSource(this);
 
     }
@@ -83,18 +63,11 @@ public class MinionSpawnPoint : MonoBehaviour {
     {
 
     }
->>>>>>> master
 
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
-        if (Time.time - spawnTime > spawnInterval)
-        {
-            spawnTime = Time.time;
-            Spawn();
-        }
-=======
+
         //Debug.Log(doneSpawning + " " + (Time.time - spawnTime) + " "+spawnedMinionsCount);
         /*This spawns as many minions as requested by the WaveManager*/
         if (!doneSpawning && Time.time-spawnTime>spawnInterval && spawnedMinionsCount<spawnedMinionsTarget)
@@ -109,7 +82,5 @@ public class MinionSpawnPoint : MonoBehaviour {
                 Debug.Log(gameObject.name + " is done spawning minions");
             }
         }
-        
->>>>>>> master
     }
 }

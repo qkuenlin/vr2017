@@ -8,8 +8,6 @@ public class Minion : MonoBehaviour {
     float HealthPoints;
     uint level;
     string resistance = "none";
-<<<<<<< HEAD
-=======
     MinionSpawnPoint source;
 
     bool dead = false;//this is needed because it isn't destroyed right away. 
@@ -20,7 +18,6 @@ public class Minion : MonoBehaviour {
     {
         source = spawnPoint;
     }
->>>>>>> master
 
     public float ExperiencePoints()
     {
@@ -29,19 +26,11 @@ public class Minion : MonoBehaviour {
 
     public float Hit(float damage, string spellType)
     {
-<<<<<<< HEAD
-        Debug.Log("MINION HIT ! received "+damage+" damage of type "+spellType);
-        if (spellType != resistance)
-        {
-            HealthPoints -= damage;
-            if (HealthPoints <= 0f)
-=======
         Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
         if (spellType != resistance)
         {
             HealthPoints -= damage;
             if (HealthPoints <= 0f && !dead)
->>>>>>> master
             {
                 Die();
                 return ExperiencePoints();
@@ -58,15 +47,10 @@ public class Minion : MonoBehaviour {
 
     void Die()
     {
-<<<<<<< HEAD
-        Debug.Log("a minion has died");
-        PopItem();
-=======
         dead = true;
         //Debug.Log("a minion has died");
         PopItem();
         source.NotifyMinionDeath();
->>>>>>> master
         Destroy(gameObject, 0.5f);//die after half a second
     }
 
