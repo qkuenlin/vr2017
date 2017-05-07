@@ -12,6 +12,13 @@ public class ThunderSpell : Spell {
         return "thunder";
     }
 
+    void Start()
+    {
+        power = 1f;
+        Instantiate(thunderBall);
+        thunderBall.SetSource(this);
+    }
+
     // Update is called once per frame
     void Update () {
     }

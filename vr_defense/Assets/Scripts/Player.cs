@@ -37,8 +37,27 @@ public class Player : MonoBehaviour {
         return position+new Vector3(0,2,0);
     }
 
-	// Use this for initialization
-	void Start () {
+    /**how to handle the various collisions with 
+     - Minions
+     - Items
+     - Menus
+     There might be a better way to do it but I don't know of it*/
+    void OnTriggerEnter(Collider col)
+    {
+        Potion potion = (Potion)col.GetComponent("Potion");
+        if(potion != null)
+        {
+            healthPoints += potion.HealthPoints();
+            potion.Destroy();
+        }
+        else
+        {
+
+        }       
+    }
+
+    // Use this for initialization
+    void Start () {
         healthPoints = 100;
         experiencePoints = 0;
         position.Set(0, 0, 0);

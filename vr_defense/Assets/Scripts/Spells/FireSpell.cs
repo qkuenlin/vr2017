@@ -30,7 +30,7 @@ public class FireSpell : Spell {
         if (Input.GetMouseButtonUp(0))
         {
             Vector3 mouse = Input.mousePosition;
-            Vector3 shootDirection = new Vector3(0f, (mouse.y - Screen.height / 2f) / Screen.height, 1f);
+            Vector3 shootDirection = new Vector3((2f * mouse.x / Screen.width - 1f), (mouse.y - Screen.height / 2f) / Screen.height, 1f).normalized;
 
            // Debug.Log(Input.mousePosition);
             //Debug.Log(shootDirection);

@@ -16,6 +16,7 @@ public class KinectSpellControl : MonoBehaviour
     public Vector3 offset = Vector3.zero;
 
     public FireSpell fs;
+    public ThunderSpell ts;
     
     private Vector3[] HandPreviousPos;
 
@@ -54,13 +55,13 @@ public class KinectSpellControl : MonoBehaviour
         }
 
         /* RIGHT HAND MANAGER */
-        HandManager(data[bodyNbr].HandRightState, data[bodyNbr].Joints[JointType.HandRight], 0);
+        HandManager(data[bodyNbr].HandRightState, data[bodyNbr].Joints[JointType.HandRight], 0, data[bodyNbr]);
 
         /* LEFT HAND MANAGER */
-        HandManager(data[bodyNbr].HandLeftState, data[bodyNbr].Joints[JointType.HandLeft], 1);
+        HandManager(data[bodyNbr].HandLeftState, data[bodyNbr].Joints[JointType.HandLeft], 1, data[bodyNbr]);
     }
 
-    void HandManager(HandState hs, Windows.Kinect.Joint hand, int w_h)
+    void HandManager(HandState hs, Windows.Kinect.Joint hand, int w_h, Body data)
     {
         CameraSpacePoint pos = hand.Position;
         Vector3 newPos = new Vector3(pos.X, pos.Y, pos.Z);
@@ -71,14 +72,17 @@ public class KinectSpellControl : MonoBehaviour
             newPos = Vector3.Lerp(HandPreviousPos[w_h], newPos, (expSmoothWeight * Time.deltaTime * 60 * 0.2f));
 
 
-        if (HandLightning[w_h]) LightningManager(hs, hand, w_h);
+        if (HandLightning[w_h]) LightningManager(hs, newPos, w_h);
         else if (HandFireBall[w_h]) FireBallManager(hs, newPos, w_h);
-        else if (HandShield[w_h]) ShieldManager(hs, hand, w_h);
+        else if (HandShield[w_h]) ShieldManager(hs, newPos, w_h);
 
 
 
-
-        if (hs.Equals(HandState.Closed))
+        if(hs.Equals(HandState.Closed) && hand.Position.Z > data.Joints[JointType.Head].Position.Z)
+        {
+            HandLightning[w_h] = true;
+        }
+        else if (hs.Equals(HandState.Closed))
         {
             HandFireBall[w_h] = true;
         }
@@ -86,9 +90,16 @@ public class KinectSpellControl : MonoBehaviour
         HandPreviousPos[w_h] = newPos;
     }
 
-    void LightningManager(HandState hs, Windows.Kinect.Joint hand, int w_h)
+    void LightningManager(HandState hs, Vector3 pos, int w_h)
     {
-
+        if (hs.Equals(HandState.Closed))
+        {
+            ts.thunderBall.Charge(pos);
+        }
+        else
+        {
+            ts.thunderBall.Release();
+        }
     }
 
     void FireBallManager(HandState hs, Vector3 pos, int w_h)
@@ -107,7 +118,7 @@ public class KinectSpellControl : MonoBehaviour
         }
     }
 
-    void ShieldManager(HandState hs, Windows.Kinect.Joint hand, int w_h)
+    void ShieldManager(HandState hs, Vector3 pos, int w_h)
     {
 
     }

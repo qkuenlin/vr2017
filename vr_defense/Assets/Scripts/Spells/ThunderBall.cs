@@ -6,11 +6,12 @@ public class ThunderBall : SpellProjectile {
     float chargeStart;
     bool charging = false;
 
-    const float maxCharge = 5.0f;
+    float maxCharge = 4.0f;
+    float radiusSpeed = 0.5f;//speed at which the radius increase (radius = radiusSpeed*chargeTime)
 
     public SphereCollider sphereCollider;
 
-    void ExplosionDamage()
+    public void ExplosionDamage()
     {
         Collider[] hitColliders = Physics.OverlapSphere(sphereCollider.transform.position, sphereCollider.radius);
         int i = 0;
@@ -26,12 +27,12 @@ public class ThunderBall : SpellProjectile {
         }
     }
 
-    float targetRadius()
+    public float targetRadius()
     {
         float chargeTime = Time.time - chargeStart;
         if (charging && chargeTime < maxCharge)
         {
-            return Mathf.Max(0.0f, chargeTime );
+            return Mathf.Max(0.0f, chargeTime*radiusSpeed );
         }
         return 0.0f;
     }
@@ -41,11 +42,11 @@ public class ThunderBall : SpellProjectile {
 
     }
 
-    void Charge(Vector3 target)
+    public void Charge(Vector3 target)
     {
         if (!charging)
         {
-            Debug.Log("Starting charge");
+           // Debug.Log("Starting charge");
             charging = true;
             chargeStart = Time.time;//time since start of game
         }
@@ -62,9 +63,9 @@ public class ThunderBall : SpellProjectile {
         }
     }
 
-    void Release()
+    public void Release()
     {
-        Debug.Log("realeased");
+       // Debug.Log("realeased");
         ExplosionDamage();
         charging = false;
         sphereCollider.transform.localScale = new Vector3(0f, 0f, 0f);
