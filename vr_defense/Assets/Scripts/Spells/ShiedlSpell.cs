@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ShiedlSpell : Spell {
 
-    bool activated = false;
+    public bool activated = false;
     public const float strength = 10.0f;
+    public GameObject shield;
 
     public float ShieldFactor()
     {
@@ -16,10 +17,22 @@ public class ShiedlSpell : Spell {
         return 0.0f;
     }
 
+    public void ActivateShield()
+    {
+        activated = true;
+        shield.SetActive(true);
+    }
 
-	// Use this for initialization
-	void Start () {
-		
+    public void DesactivateSheidl()
+    {
+        activated = false;
+        shield.SetActive(false);
+    }
+
+
+    // Use this for initialization
+    void Start () {
+        shield.SetActive(false);
 	}
 	
 	// Update is called once per frame

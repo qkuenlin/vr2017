@@ -17,12 +17,16 @@ public class KinectSpellControl : MonoBehaviour
 
     public FireSpell fs;
     public ThunderSpell ts;
+    public ShiedlSpell ss;
+
+    private ThunderBall tb;
     
     private Vector3[] HandPreviousPos;
 
     private bool[] HandFireBall;
     private bool[] HandLightning;
     private bool[] HandShield;
+    private float[] HandCoolDown;
 
     // Use this for initialization
     void Start()
@@ -30,6 +34,7 @@ public class KinectSpellControl : MonoBehaviour
         HandFireBall = new bool[]{false, false};
         HandLightning = new bool[] { false, false };
         HandShield = new bool[] { false, false };
+        HandCoolDown = new float[] { 0f, 0f };
         HandPreviousPos = new Vector3[2];
     }
 
@@ -71,16 +76,41 @@ public class KinectSpellControl : MonoBehaviour
         else
             newPos = Vector3.Lerp(HandPreviousPos[w_h], newPos, (expSmoothWeight * Time.deltaTime * 60 * 0.2f));
 
+        Vector3 headPos = new Vector3(data.Joints[JointType.Head].Position.X, data.Joints[JointType.Head].Position.Y, data.Joints[JointType.Head].Position.Z);
+        headPos += offset;
 
-        if (HandLightning[w_h]) LightningManager(hs, newPos, w_h);
-        else if (HandFireBall[w_h]) FireBallManager(hs, newPos, w_h);
-        else if (HandShield[w_h]) ShieldManager(hs, newPos, w_h);
+        Vector3 spinePos = new Vector3(data.Joints[JointType.SpineMid].Position.X, data.Joints[JointType.SpineMid].Position.Y, data.Joints[JointType.SpineMid].Position.Z);
+        spinePos += offset;
+      //  Debug.Log("Hand pos: " + newPos + "    head pos " + headPos );
 
+        if(HandCoolDown[w_h] > 0)
+        {
+            CoolDownManager(w_h);
+        }
+        else if (HandLightning[w_h])
+        {
+            LightningManager(hs, newPos, w_h, headPos);
+        }
+        else if (HandFireBall[w_h])
+        {
+            FireBallManager(hs, newPos, w_h);
+        }
+        else if (HandShield[w_h])
+        {
+            ShieldManager(hs, newPos, w_h, spinePos);
+        }
 
+        /* If there is no spell activated by this hand, look if one should be activated */
 
-        if(hs.Equals(HandState.Closed) && hand.Position.Z > data.Joints[JointType.Head].Position.Z)
+        else if(hs.Equals(HandState.Closed) && newPos.y > headPos.y && !HandLightning[1 - w_h])
         {
             HandLightning[w_h] = true;
+            tb = ts.newThunderBall();
+        }
+        else if(hs.Equals(HandState.Open) && newPos.z+0.5 <spinePos.z && !HandShield[1-w_h]) // can only have one shield at a time
+        {
+            HandShield[w_h] = true;
+            ss.ActivateShield();
         }
         else if (hs.Equals(HandState.Closed))
         {
@@ -90,36 +120,51 @@ public class KinectSpellControl : MonoBehaviour
         HandPreviousPos[w_h] = newPos;
     }
 
-    void LightningManager(HandState hs, Vector3 pos, int w_h)
+    void CoolDownManager(int w_h)
     {
-        if (hs.Equals(HandState.Closed))
+        HandCoolDown[w_h] = Mathf.Max(HandCoolDown[w_h] - Time.deltaTime, 0f);
+    }
+
+    void LightningManager(HandState hs, Vector3 pos, int w_h, Vector3 headPos)
+    {
+        if (hs.Equals(HandState.Closed) && pos.y > headPos.y)
         {
-            ts.thunderBall.Charge(pos);
+            Vector3 target = new Vector3(pos.x, 0, 20f - 10*pos.z);
+            tb.Charge(target);
         }
         else
         {
-            ts.thunderBall.Release();
+            tb.Release();
+            HandLightning[w_h] = false;
+            HandCoolDown[w_h] = 2f;
+            Destroy(tb);
         }
     }
 
     void FireBallManager(HandState hs, Vector3 pos, int w_h)
     {
-        if (hs.Equals(HandState.Open))
+        if (hs.Equals(HandState.Open) && pos.z < HandPreviousPos[w_h].z)
         {
             float diffX = pos.x - HandPreviousPos[w_h].x;
             float diffY = pos.y - HandPreviousPos[w_h].y;
-            float diffZ = -pos.z + HandPreviousPos[w_h].z;
+            float diffZ = Mathf.Abs(-pos.z + HandPreviousPos[w_h].z);
             Vector3 direction = new Vector3(diffX, diffY, diffZ).normalized;
             float speed = 20 * (diffX * diffX + diffY * diffY + diffZ * diffZ);
             if (speed < 1.0f / Time.deltaTime) speed = 1.0f / Time.deltaTime;
 
             fs.Throw(pos, direction, speed);
             HandFireBall[w_h] = false;
+            HandCoolDown[w_h] = 0.5f;
         }
     }
 
-    void ShieldManager(HandState hs, Vector3 pos, int w_h)
+    void ShieldManager(HandState hs, Vector3 pos, int w_h, Vector3 spinePos)
     {
-
+        if (!hs.Equals(HandState.Open) || pos.z + 0.4 > spinePos.z)
+        {
+            ss.DesactivateSheidl();
+            HandShield[w_h] = false;
+            HandCoolDown[w_h] = 0.5f;
+        }
     }
 }

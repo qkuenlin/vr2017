@@ -12,11 +12,21 @@ public class ThunderSpell : Spell {
         return "thunder";
     }
 
+    public ThunderBall newThunderBall()
+    {
+        ThunderBall clone = Instantiate(thunderBall);
+        clone.SetSource(this);
+        return clone;
+    }
+
     void Start()
     {
+        
         power = 1f;
+        // Instantiate for mouse control //
         Instantiate(thunderBall);
         thunderBall.SetSource(this);
+        
     }
 
     // Update is called once per frame

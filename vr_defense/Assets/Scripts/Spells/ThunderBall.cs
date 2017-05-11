@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThunderBall : SpellProjectile {
+public class ThunderBall : SpellProjectile
+{
     float chargeStart;
     bool charging = false;
 
-    float maxCharge = 4.0f;
+    float maxCharge = 6.0f;
     float radiusSpeed = 0.5f;//speed at which the radius increase (radius = radiusSpeed*chargeTime)
 
     public SphereCollider sphereCollider;
@@ -29,10 +30,10 @@ public class ThunderBall : SpellProjectile {
 
     public float targetRadius()
     {
-        float chargeTime = Time.time - chargeStart;
-        if (charging && chargeTime < maxCharge)
+        float chargeTime = Mathf.Min(Time.time - chargeStart, maxCharge);
+        if (charging)
         {
-            return Mathf.Max(0.0f, chargeTime*radiusSpeed );
+            return Mathf.Max(0.0f, chargeTime * radiusSpeed);
         }
         return 0.0f;
     }
@@ -46,30 +47,30 @@ public class ThunderBall : SpellProjectile {
     {
         if (!charging)
         {
-           // Debug.Log("Starting charge");
             charging = true;
             chargeStart = Time.time;//time since start of game
         }
-        if (Time.time - chargeStart > maxCharge)
-        {
-            Release();
-        }
-        else
-        {
-            sphereCollider.transform.position = target;
-            sphereCollider.transform.localScale = new Vector3(1f, 1f, 1f);
-            sphereCollider.transform.localScale *= targetRadius();
-            sphereCollider.radius = targetRadius();
-        }
+        sphereCollider.transform.position = target;
+        sphereCollider.transform.localScale = new Vector3(1f, 1f, 1f);
+        float radius = targetRadius();
+        sphereCollider.transform.localScale *= radius;
+        sphereCollider.radius = radius;
+
+        transform.localScale.Set(radius, radius, radius);
+        transform.position = target;
+
+        Debug.Log(target + "   " + radius);
+
     }
 
     public void Release()
     {
-       // Debug.Log("realeased");
+        Debug.Log("realeased");
         ExplosionDamage();
         charging = false;
         sphereCollider.transform.localScale = new Vector3(0f, 0f, 0f);
         sphereCollider.radius = 0f;
+        transform.localScale.Set(0f, 0f, 0f);
         //effects and attacks
     }
 

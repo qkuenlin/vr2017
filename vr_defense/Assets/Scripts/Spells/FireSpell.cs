@@ -34,7 +34,7 @@ public class FireSpell : Spell {
 
            // Debug.Log(Input.mousePosition);
             //Debug.Log(shootDirection);
-            Throw(transform.position, shootDirection.normalized,10.0f/Time.deltaTime);
+            Throw(transform.position, shootDirection.normalized,1.0f/Time.deltaTime);
         }
 	}
 }
