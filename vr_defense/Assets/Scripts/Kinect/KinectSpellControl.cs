@@ -45,7 +45,7 @@ public class KinectSpellControl : MonoBehaviour
 
         if (data == null)
         {
-            Debug.Log("KinectModelControllerV2.cs: no capture data");
+            //Debug.Log("KinectModelControllerV2.cs: no capture data");
             return;
         }
 

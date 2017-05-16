@@ -26,7 +26,7 @@ public class KinectHeadTracking : MonoBehaviour
         Body[] data = bsm.GetData();
         if (data == null)
         {
-            Debug.Log("KinectModelControllerV2.cs: no capture data");
+            //Debug.Log("KinectModelControllerV2.cs: no capture data");
             return;
         }
         // select a valid kinect body (for some reason the body ID seems to be randomly attributed by kinect)

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 94ca1c4cb5045b544af3a55cfd07aec5
+timeCreated: 1494875386
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Action Comics
+  fontNames:
+  - Action Comics
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

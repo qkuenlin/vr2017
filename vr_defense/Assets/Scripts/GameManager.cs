@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour {
     public WaveManager waveManager;
     public MenuManager menuManager;
 
-    enum Mode {IDLE,WAVE,MENU};
+    public enum Mode {IDLE,WAVE,MENU};
 
-    Mode mode = Mode.IDLE;
+    public Mode mode = Mode.IDLE;
 
     // Use this for initialization
     void Start () {
