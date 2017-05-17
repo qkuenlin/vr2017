@@ -22,6 +22,8 @@ public class KinectHandControl : MonoBehaviour
 
     public Transform transformToSet;
 
+    public HandState state;
+
     // Update is called once per frame
     void Update()
     {
@@ -84,7 +86,10 @@ public class KinectHandControl : MonoBehaviour
 
             transformToSet.localPosition = newPos;
 
+            if (rightHand)
+                state = data[bodyNbr].HandRightState;
+            else
+                state = data[bodyNbr].HandLeftState;
         }
     }
-
 }
