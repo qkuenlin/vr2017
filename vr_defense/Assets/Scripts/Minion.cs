@@ -68,7 +68,7 @@ public abstract class Minion : MonoBehaviour {
     {
         HealthPoints = 1;
         level = 1;
-        Debug.Log("created a minion");
+        //Debug.Log("created a minion");
         body.velocity = new Vector3(0, 0, -1f);
     }
 	

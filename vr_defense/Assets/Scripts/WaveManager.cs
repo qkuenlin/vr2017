@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour {
-    uint waveCount=0;
+    public uint waveCount=0;
 
     public MinionSpawnPoint ccSpawn;
     public MinionSpawnPoint randShootSpawn;
@@ -22,6 +22,7 @@ public class WaveManager : MonoBehaviour {
      for now it's a bit random. Must be refined later */
     public void LaunchWave()
     {
+
         waveCount++;
         switch (waveCount)
         {
@@ -77,18 +78,18 @@ public class WaveManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (AllDone())
+       /* if (AllDone())
         {
             Debug.Log("wave " + waveCount + " is over");
             waveCount++;
             //Pause();
-        }
-
+        }*/
+        /*
         if (AllDone() && !paused)
         {
             Debug.Log("Wave " + waveCount + " is over, launching new wave");
             waveCount++;
             LaunchWave();
-        }
+        }*/
 	}
 }
