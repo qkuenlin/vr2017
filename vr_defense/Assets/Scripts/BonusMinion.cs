@@ -30,5 +30,11 @@ public class BonusMinion : Minion {
     {
         PopItem();
     }
-	
+
+    void Awake()
+    {
+        Destroy(gameObject, 10);
+    }
+
+
 }

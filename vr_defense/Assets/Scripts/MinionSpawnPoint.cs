@@ -43,12 +43,13 @@ public class MinionSpawnPoint : MonoBehaviour {
         if (p < 0.9)//10% chance that the new minion is a bonus one
         {
             clone = Instantiate(minion);
+           // deadMinionsCount++;//if it's a bonus minion, we count it as dead since it doesn't need to die to finish the wave
         }else
         {
             clone = Instantiate(bonusMinion); 
         }
 
-        Vector2 inCircle = Random.insideUnitCircle;
+        Vector2 inCircle = 2f*Random.insideUnitCircle;
         Vector3 randPos = new Vector3();
         randPos.Set(inCircle.x, 0f, inCircle.y);
         

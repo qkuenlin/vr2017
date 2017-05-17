@@ -65,7 +65,7 @@ public class ThunderBall : SpellProjectile
 
     public void Release()
     {
-        Debug.Log("realeased");
+        Debug.Log("released");
         ExplosionDamage();
         charging = false;
         sphereCollider.transform.localScale = new Vector3(0f, 0f, 0f);
