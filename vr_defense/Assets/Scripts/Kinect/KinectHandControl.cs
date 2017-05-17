@@ -53,20 +53,15 @@ public class KinectHandControl : MonoBehaviour
         // set model position
         if (updatePosition)
         {
-
-
             Windows.Kinect.Joint hand;
-            Windows.Kinect.Joint wrist;
 
             if (rightHand)
             {
                 hand = data[bodyNbr].Joints[JointType.HandRight];
-                wrist = data[bodyNbr].Joints[JointType.HandRight-1];
             }
             else
             {
                 hand = data[bodyNbr].Joints[JointType.HandLeft];
-                wrist = data[bodyNbr].Joints[JointType.HandLeft-1];
             }
 
             CameraSpacePoint pos = hand.Position;
@@ -78,35 +73,18 @@ public class KinectHandControl : MonoBehaviour
 
             newPos += offset;
 
-            Vector3 target = GetVector3FromJoint(hand) - GetVector3FromJoint(wrist);
-
-            target = transform.TransformDirection(target);
-
-            Vector3 dir = new Vector3(0f, 0f, 0f);
-            Quaternion quat = Quaternion.FromToRotation(dir, target);
-
             if (hand.TrackingState == TrackingState.Tracked)
             {
                 newPos = Vector3.Lerp(transformToSet.localPosition, newPos, expSmoothWeight * Time.deltaTime * 60);
-                quat = Quaternion.Lerp(transformToSet.localRotation, quat, expSmoothWeight * 60 * Time.deltaTime);
             }
             else
             {
                 newPos = Vector3.Lerp(transformToSet.localPosition, newPos, (expSmoothWeight * Time.deltaTime * 60 * 0.2f));
-                quat = Quaternion.Lerp(transformToSet.localRotation, quat, (expSmoothWeight * 0.2f * 60 * Time.deltaTime));
             }
 
             transformToSet.localPosition = newPos;
-            transformToSet.localRotation = quat; 
 
         }
     }
-
-
-    private static Vector3 GetVector3FromJoint(Windows.Kinect.Joint joint)
-    {
-        return new Vector3(joint.Position.X * 10, joint.Position.Z * 10, joint.Position.Y * 10);
-    }
-
 
 }
