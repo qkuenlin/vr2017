@@ -45,6 +45,7 @@ public class KinectModelControllerV2 : MonoBehaviour {
 		Left_Leg = 0x1000000 | Hips | Knee_Left | Ankle_Left | Foot_Left,
 		Right_Leg = 0x1000000 | Hips | Knee_Right | Ankle_Right | Foot_Right,
 		R_Arm_Chest = Right_Arm | Spine,
+        Arms_Chest = Right_Arm | Left_Arm | Spine,
 		No_Feet = All & ~(Foot_Left | Foot_Right),
 		Upper_Body = Head |Elbow_Left | Wrist_Left | Hand_Left | Elbow_Right | Wrist_Right | Hand_Right
 	}
@@ -129,8 +130,10 @@ public class KinectModelControllerV2 : MonoBehaviour {
 		_boneDir = new Vector3[(int)JointType.SpineShoulder];
 		
 		//first save the special rotations for the hip and spine
-		_hipRight = Hip_Right.transform.position - Hip_Left.transform.position;
+        /*
+        _hipRight = Hip_Right.transform.position - Hip_Left.transform.position;
 		_hipRight = Hip_Override.transform.InverseTransformDirection(_hipRight);
+        */
 		
 		_chestRight = Shoulder_Right.transform.position - Shoulder_Left.transform.position;
 		_chestRight = Spine.transform.InverseTransformDirection(_chestRight);
