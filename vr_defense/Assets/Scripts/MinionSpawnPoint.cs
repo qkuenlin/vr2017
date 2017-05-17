@@ -24,11 +24,12 @@ public class MinionSpawnPoint : MonoBehaviour {
     }
 
     /**Sets the spawnPoint to spawn minionNbr minions, with spawnInterval seconds between each minion*/
-    public void Spawn(uint minionNbr, float interval)
+    public void Spawn(uint minionNbr, uint minionLvl, float interval)
     {
         Debug.Log(gameObject.name + " received new wave order. Spawning one minion every " + interval + "sec. " + minionNbr + " times");
         if (doneSpawning)
         {
+            level = minionLvl;
             doneSpawning = false;
             spawnInterval = interval;
             spawnedMinionsTarget = minionNbr;
@@ -56,6 +57,7 @@ public class MinionSpawnPoint : MonoBehaviour {
         clone.body.transform.position = transform.position+randPos;
        // clone.body.velocity = new Vector3(0f, 0f, -1.5f);
         clone.SetSource(this);
+        clone.SetLevel(level);
 
     }
 

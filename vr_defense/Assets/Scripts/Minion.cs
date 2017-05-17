@@ -20,6 +20,11 @@ public abstract class Minion : MonoBehaviour {
 
    public bool inRangeToAttack = false;
 
+    public void SetLevel(uint lvl)
+    {
+        level = lvl;
+    }
+
     protected bool Dead() { return dead; }
 
     public void SetSpeed(float s)

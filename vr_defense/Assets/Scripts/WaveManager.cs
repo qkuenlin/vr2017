@@ -9,6 +9,8 @@ public class WaveManager : MonoBehaviour {
     public MinionSpawnPoint randShootSpawn;
     public MinionSpawnPoint headShootSpawn;
 
+    public const uint wavesPerLevel = 5;
+
     bool paused = true;
 
     bool AllDone()
@@ -23,24 +25,27 @@ public class WaveManager : MonoBehaviour {
     public void LaunchWave()
     {
 
-        waveCount++;
-        switch (waveCount)
+        uint waveLevel = waveCount / wavesPerLevel+1;
+        uint minionNbr = 5 + waveLevel;
+        float spawnInterval = 1f;
+
+        switch (waveCount % wavesPerLevel + 1)
         {
             case 0: break;
-            case 1: randShootSpawn.Spawn(5,1f);break;
-            case 2: headShootSpawn.Spawn(5, 1f);break;
-            case 3: headShootSpawn.Spawn(5, 1f); break;
+            case 1: ccSpawn.Spawn(minionNbr, waveLevel, spawnInterval);break;
+            case 2: headShootSpawn.Spawn(minionNbr, waveLevel, spawnInterval); break;
+            case 3: headShootSpawn.Spawn(minionNbr, waveLevel, spawnInterval); break;
             case 4:
                 {
-                    ccSpawn.Spawn(5, 1f);
-                    randShootSpawn.Spawn(5, 1f);
+                    ccSpawn.Spawn(minionNbr, waveLevel, spawnInterval);
+                    randShootSpawn.Spawn(minionNbr, waveLevel, spawnInterval);
                     break;
                 }
 
             case 5:
                 {
-                    headShootSpawn.Spawn(5, 1f);
-                    randShootSpawn.Spawn(5, 1f);
+                    headShootSpawn.Spawn(minionNbr, waveLevel, spawnInterval);
+                    randShootSpawn.Spawn(minionNbr, waveLevel, spawnInterval);
                     break;
                 }
             default:
@@ -49,6 +54,9 @@ public class WaveManager : MonoBehaviour {
                     break;
                 }
         }
+
+        waveCount++;
+
     }
 
     public void Pause()

@@ -1,7 +1,6 @@
 - Wave manager -> améliorer vagues
 - Minions 
   -> animation
-- UI (score + or + pv)
 - Thunderball
 - items 
   -> hat
