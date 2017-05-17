@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour {
-    public Object fireToken;
-    public Object thunderToken;
-    public Object shieldToken;
+    public Token fireToken;
+    public Token thunderToken;
+    public Token shieldToken;
 
     private bool paused = true;
     private float countdown = 0f;
@@ -29,9 +29,9 @@ public class MenuManager : MonoBehaviour {
     {
         countdown = menuTime;
         done = false;
-        Instantiate(fireToken);
-        Instantiate(thunderToken);
-        Instantiate(shieldToken);
+        fireToken.setActive(true);
+        thunderToken.setActive(true);
+        shieldToken.setActive(true);
     }
 
     public bool Done()
@@ -46,6 +46,9 @@ public class MenuManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        fireToken.setActive(false);
+        thunderToken.setActive(false);
+        shieldToken.setActive(false);
     }
 	
 	// Update is called once per frame
@@ -57,6 +60,9 @@ public class MenuManager : MonoBehaviour {
 
         if ( countdown <= 0)
         {
+            fireToken.setActive(false);
+            thunderToken.setActive(false);
+            shieldToken.setActive(false);
             done = true;
         }
 	}

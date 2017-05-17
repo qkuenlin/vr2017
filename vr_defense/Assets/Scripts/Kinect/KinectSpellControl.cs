@@ -7,6 +7,8 @@ using Windows.Kinect;
 
 public class KinectSpellControl : MonoBehaviour
 {
+    public GameManager gm;
+
     public KinectHandControl RightHand;
     public KinectHandControl LeftHand;
     public Camera Head;
@@ -37,12 +39,14 @@ public class KinectSpellControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gm.mode == GameManager.Mode.WAVE)
+        {
+            /* RIGHT HAND MANAGER */
+            HandManager(0);
 
-        /* RIGHT HAND MANAGER */
-        HandManager(0);
-
-        /* LEFT HAND MANAGER */
-        HandManager(1);
+            /* LEFT HAND MANAGER */
+            HandManager(1);
+        }
     }
 
     void HandManager(int w_h)

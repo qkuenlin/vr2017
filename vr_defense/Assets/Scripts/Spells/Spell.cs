@@ -14,6 +14,16 @@ public class Spell : MonoBehaviour {
         wizard.GiveXP(minion.Hit(Damage(), SpellType()));
     }
 
+    public uint getLevel()
+    {
+        return level;
+    }
+
+    public void upgrade()
+    {
+        level += 1;
+    }
+
     virtual public float Damage()
     {
         return level * power;
