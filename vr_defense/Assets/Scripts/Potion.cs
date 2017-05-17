@@ -18,7 +18,7 @@ public class Potion : Item {
 	// Use this for initialization
 	void Start () {
         Destroy(gameObject, 10);
-        Vector3 target=new Vector3(0,1.8f,0);
+        Vector3 target = GameObject.Find("headCamera").transform.position;
         body.velocity = (target-transform.position).normalized* speed;
 	}
 	
