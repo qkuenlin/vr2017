@@ -8,6 +8,9 @@ public class BonusMinion : Minion {
     public Hat hat;
     public Sword sword;
 
+    public const float timeToLive = 12f;
+
+    float spawnTime = 0f;
     void PopItem()//TODO
     {
       //  Debug.Log("Popping new item");
@@ -33,8 +36,16 @@ public class BonusMinion : Minion {
 
     void Awake()
     {
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 12f);
     }
 
-
+    void OnDestroy()
+    {
+        if (!Dead())//if it's not dead it means it has been destroyed after 12 seconds.
+            //in this case, we simply notify the source so it counts as dead at the source's level,
+            //but no additional effecti is applied (i.e. no bonus)
+        {
+            source.NotifyMinionDeath();
+        }
+    }
 }

@@ -15,8 +15,19 @@ public class GameManager : MonoBehaviour {
     void Start () {
 	}
 	
-	// Update is called once per frame
-	void Update () {
+    public uint WaveCount()
+    {
+        return waveManager.waveCount;
+    }
+
+    public float getCountdown()
+    {
+        return menuManager.getCountdown();
+    }
+
+
+    // Update is called once per frame
+    void Update () {
         switch (mode)
         {
             case Mode.IDLE:

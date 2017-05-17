@@ -11,9 +11,20 @@ public class Player : MonoBehaviour {
     float experiencePoints;
     Vector3 position;
 
+    public float HP()
+    {
+        return healthPoints;
+    }
+
+    public float XP()
+    {
+        return experiencePoints;
+    }
+
     public void GiveXP(float XP)
     {
         experiencePoints += XP;
+        GameObject.Find("Canvas").GetComponent<GUIManager>().UpdateScore(healthPoints,experiencePoints);
     }
 
     public void Hit(float damage)
@@ -24,6 +35,10 @@ public class Player : MonoBehaviour {
         if (healthPoints < 0.0f)
         {
             Die();
+        }
+        else
+        {
+            GameObject.Find("Canvas").GetComponent<GUIManager>().UpdateScore(healthPoints, experiencePoints);
         }
 
     }

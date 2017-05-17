@@ -7,8 +7,8 @@ public class GUIManager : MonoBehaviour
 {
 
     public GameManager gameManager;
-    public WaveManager waveManager;
-    public MenuManager menuManager;
+   // public WaveManager waveManager;
+    //public MenuManager menuManager;
 
     public ThunderSpell thunder;
     public FireSpell fire;
@@ -58,7 +58,7 @@ public class GUIManager : MonoBehaviour
                     }
                     else
                     {
-                        float count = menuManager.getCountdown();
+                        float count = gameManager.getCountdown();
                         set_text = ""+ Mathf.CeilToInt(count);
                         color = 1 - (Mathf.Ceil(count) - count);
                     }
@@ -73,7 +73,7 @@ public class GUIManager : MonoBehaviour
                     }
                     if (timer > 0)
                     {
-                        set_text = "WAVE " + waveManager.waveCount + " STARTING";
+                        set_text = "WAVE " + gameManager.WaveCount() + " STARTING";
                         timer -= Time.deltaTime;
                         color = timer / maxTimer;
                     }
@@ -84,5 +84,16 @@ public class GUIManager : MonoBehaviour
         Main_Headline.text = set_text;
         color *= color;
         Main_Headline.color = new Color(color, color, color);
+
+        //update player data
+    }
+
+    public void UpdateScore(float hp, float xp)
+    {
+        Debug.Log("UPDATED SCORE");
+        string score = "";
+        score += "HP : " + hp + "\n";
+        score += "XP : " + xp + "\n";
+        scoreText.text = score;
     }
 }

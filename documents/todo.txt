@@ -3,7 +3,9 @@
   -> animation
 - UI (score + or + pv)
 - Thunderball
-
+- items 
+  -> hat
+  -> sword
 
 - Faire marcher kinect
 - Menu

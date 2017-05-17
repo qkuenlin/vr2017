@@ -13,12 +13,14 @@ public abstract class Minion : MonoBehaviour {
     float HealthPoints;
     uint level;
     string resistance = "none";
-    MinionSpawnPoint source;
+    protected MinionSpawnPoint source;
 
     bool dead = false;//this is needed because it isn't destroyed right away. 
                       //So it can be hit again after dying, thus calling Die() again
 
    public bool inRangeToAttack = false;
+
+    protected bool Dead() { return dead; }
 
     public void SetSpeed(float s)
     {
@@ -51,7 +53,7 @@ public abstract class Minion : MonoBehaviour {
         return 0f;
     }
 
-    void Die()
+    protected void Die()
     {
         dead = true;
         //Debug.Log("a minion has died");
