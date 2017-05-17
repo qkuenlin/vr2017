@@ -16,10 +16,11 @@ public class Player : MonoBehaviour {
         experiencePoints += XP;
     }
 
-    void Hit(float damage)
+    public void Hit(float damage)
     {
         damage -= shield.ShieldFactor();
         healthPoints -= damage;
+        Debug.Log("you've been hit and lost " + damage + " health points");
         if (healthPoints < 0.0f)
         {
             Die();

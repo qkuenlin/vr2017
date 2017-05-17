@@ -27,8 +27,8 @@ public class WaveManager : MonoBehaviour {
         switch (waveCount)
         {
             case 0: break;
-            case 1: ccSpawn.Spawn(5,1f);break;
-            case 2: randShootSpawn.Spawn(5, 1f);break;
+            case 1: randShootSpawn.Spawn(5,1f);break;
+            case 2: headShootSpawn.Spawn(5, 1f);break;
             case 3: headShootSpawn.Spawn(5, 1f); break;
             case 4:
                 {

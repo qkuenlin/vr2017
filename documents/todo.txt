@@ -1,8 +1,11 @@
-- Wave manager
-- Minions
+- Wave manager -> améliorer vagues
+- Minions 
+  -> animation
+  -> attaques (càc, distance, tête)
 - UI (score + or + pv)
 - Thunderball
 - Interaction Potion
+
 
 - Faire marcher kinect
 - Menu
