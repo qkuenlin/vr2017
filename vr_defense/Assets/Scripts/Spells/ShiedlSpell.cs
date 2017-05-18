@@ -29,9 +29,15 @@ public class ShiedlSpell : Spell {
         shield.SetActive(false);
     }
 
+    public override string SpellType()
+    {
+        return "Shield";
+    }
+
 
     // Use this for initialization
     void Start () {
+        restTime = 2f;
         shield.SetActive(false);
 	}
 	

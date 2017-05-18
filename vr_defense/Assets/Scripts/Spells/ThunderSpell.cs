@@ -9,7 +9,7 @@ public class ThunderSpell : Spell {
 
     public override string SpellType()
     {
-        return "thunder";
+        return "Thunder";
     }
 
     public ThunderBall newThunderBall()
@@ -21,7 +21,7 @@ public class ThunderSpell : Spell {
 
     void Start()
     {
-        
+        restTime = 3f;
         power = 1f;
         // Instantiate for mouse control //
         Instantiate(thunderBall);

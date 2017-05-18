@@ -132,7 +132,7 @@ public class KinectSpellControl : MonoBehaviour
         {
             tb.Release();
             handUse[w_h] = HandUse.REST;
-            HandCoolDown[w_h] = 2f;
+            HandCoolDown[w_h] = ts.getRestTime();
             Destroy(tb);
         }
     }
@@ -152,7 +152,7 @@ public class KinectSpellControl : MonoBehaviour
 
             fs.Throw(pos, direction, speed);
             handUse[w_h] = HandUse.REST;
-            HandCoolDown[w_h] = 0.5f;
+            HandCoolDown[w_h] = fs.getRestTime();
         }
     }
 
@@ -162,7 +162,7 @@ public class KinectSpellControl : MonoBehaviour
         {
             ss.DesactivateSheidl();
             handUse[w_h] = HandUse.REST;
-            HandCoolDown[w_h] = 0.5f;
+            HandCoolDown[w_h] = ss.getRestTime();
         }
     }
 }

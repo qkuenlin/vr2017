@@ -19,7 +19,13 @@ public class Token : MonoBehaviour {
 
     protected void OnTriggerEnter(Collider col)
     {
-        spell.upgrade();
+        float price = 5 * spell.getLevel();
+        if (GameObject.Find("Player").GetComponent<Player>().XP() > price)
+        {
+            GameObject.Find("Player").GetComponent<Player>().GiveXP(-price);
+            spell.upgrade();
+        }
+        
     }
 
     public void setActive(bool b)
