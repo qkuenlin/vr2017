@@ -19,7 +19,8 @@ public class KinectSpellControl : MonoBehaviour
 
     private ThunderBall tb;
 
-    private Vector3[] HandPreviousPos;
+    private Vector3[] HandPPos;
+    private Vector3[] HandPPPos;
 
     private float[] HandCoolDown;
 
@@ -30,7 +31,7 @@ public class KinectSpellControl : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        HandPreviousPos = new Vector3[2];
+        HandPPos = new Vector3[2];
 
         handUse = new HandUse[] { HandUse.IDLE, HandUse.IDLE };
         HandCoolDown = new float[] { 0, 0 };
@@ -109,13 +110,13 @@ public class KinectSpellControl : MonoBehaviour
                     break;
                 }
         }
-        HandPreviousPos[w_h] = newPos;
+        HandPPos[w_h] = newPos;
     }
 
     void CoolDownManager(int w_h)
     {
         HandCoolDown[w_h] = Mathf.Max(HandCoolDown[w_h] - Time.deltaTime, 0f);
-        if (HandCoolDown[w_h] <= 0)
+        if (HandCoolDown[w_h] <= 0f)
         {
             handUse[w_h] = HandUse.IDLE;
         }
@@ -123,34 +124,56 @@ public class KinectSpellControl : MonoBehaviour
 
     void LightningManager(HandState hs, Vector3 pos, int w_h, Vector3 headPos)
     {
-        if (hs.Equals(HandState.Closed) && pos.y > headPos.y)
-        {
-            Vector3 target = new Vector3(pos.x, 0, 15f + 5 * pos.z);
-            tb.Charge(target);
-        }
-        else
+        if (hs.Equals(HandState.Open) || pos.y < headPos.y)
         {
             tb.Release();
             handUse[w_h] = HandUse.REST;
             HandCoolDown[w_h] = ts.getRestTime();
             Destroy(tb);
         }
+        else
+        {
+            Vector3 target = new Vector3(pos.x, 0, 15f + 8 * pos.z);
+            tb.Charge(target);
+        }
     }
 
     void FireBallManager(HandState hs, Vector3 pos, int w_h)
     {
-        if (hs.Equals(HandState.Open) && pos.z > HandPreviousPos[w_h].z)
+        if (hs.Equals(HandState.Open))
         {
-            float diffX = pos.x - HandPreviousPos[w_h].x;
-            float diffY = pos.y - HandPreviousPos[w_h].y;
-            float diffZ = Mathf.Abs(-pos.z + HandPreviousPos[w_h].z);
-            Vector3 direction = new Vector3(diffX, diffY, diffZ).normalized;
-            float speed = 20 * (diffX * diffX + diffY * diffY + diffZ * diffZ);
-            if (speed < 1.0f / Time.deltaTime) speed = 1.0f / Time.deltaTime;
 
-            Debug.Log(pos + " " + HandPreviousPos[w_h]);
 
-            fs.Throw(pos, direction, speed);
+            float diffX = pos.x - HandPPos[w_h].x;
+            float diffY = pos.y - HandPPos[w_h].y;
+            float diffZ = Mathf.Abs(-pos.z + HandPPos[w_h].z);
+            Vector3 direction = new Vector3(diffX, diffY, diffZ);
+
+            float speed = 500f * direction.sqrMagnitude / Time.deltaTime;
+
+            Collider[] hitCollider = Physics.OverlapSphere(pos, 0.5f);
+            float radius = 1f;
+            while(hitCollider.Length <= 0 || radius <= 20f)
+            {
+                hitCollider = Physics.OverlapSphere(pos, ++radius);
+            }
+            bool found = false;
+            int i = 0;
+            while (i < hitCollider.Length && !found)
+            {
+                Minion minion = (Minion)hitCollider[i].GetComponent("Minion");
+
+                if (minion != null)
+                {
+                    direction = minion.transform.position - pos;
+                    found = true;
+                    Debug.Log("thow fireball at minion! " + direction);
+                }
+                i++;
+            }
+
+
+            fs.Throw(pos, direction.normalized, speed);
             handUse[w_h] = HandUse.REST;
             HandCoolDown[w_h] = fs.getRestTime();
         }

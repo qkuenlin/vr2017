@@ -17,8 +17,9 @@ public class Token : MonoBehaviour {
 		
 	}
 
-    protected void OnTriggerEnter(Collider col)
+    virtual protected void OnTriggerEnter(Collider col)
     {
+        Debug.Log("smt touch me! " + col);
         float price = 5 * spell.getLevel();
         if (GameObject.Find("Player").GetComponent<Player>().XP() > price)
         {
