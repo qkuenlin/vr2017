@@ -17,6 +17,8 @@ public class KinectSpellControl : MonoBehaviour
     public ThunderSpell ts;
     public ShiedlSpell ss;
 
+    public Sword sword;
+
     private ThunderBall tb;
 
     private Vector3[] HandPPos;
@@ -87,6 +89,7 @@ public class KinectSpellControl : MonoBehaviour
                 }
             case HandUse.SWORD:
                 {
+                    SwordManager(Hand.state, newPos, w_h);
                     break;
                 }
             case HandUse.IDLE:
@@ -100,6 +103,11 @@ public class KinectSpellControl : MonoBehaviour
                     {
                         handUse[w_h] = HandUse.SHIELD;
                         ss.ActivateShield();
+                    }
+                    else if(Hand.state.Equals(HandState.Closed) && newPos.y -0.4 < headPos.y && handUse[1 - w_h] != HandUse.SWORD)
+                    {
+                        handUse[w_h] = HandUse.SWORD;
+                        sword.gameObject.SetActive(true);
                     }
                     else if (Hand.state.Equals(HandState.Closed))
                     {
@@ -140,7 +148,7 @@ public class KinectSpellControl : MonoBehaviour
 
     void FireBallManager(HandState hs, Vector3 pos, int w_h)
     {
-        if (hs.Equals(HandState.Open))
+        if (!hs.Equals(HandState.Closed))
         {
 
 
@@ -186,6 +194,16 @@ public class KinectSpellControl : MonoBehaviour
             ss.DesactivateSheidl();
             handUse[w_h] = HandUse.REST;
             HandCoolDown[w_h] = ss.getRestTime();
+        }
+    }
+
+    void SwordManager(HandState hs, Vector3 pos, int w_h)
+    {
+        if (hs.Equals(HandState.Open))
+        {
+            sword.gameObject.SetActive(false);
+            handUse[w_h] = HandUse.REST;
+            HandCoolDown[w_h] = 0.2f;
         }
     }
 }
