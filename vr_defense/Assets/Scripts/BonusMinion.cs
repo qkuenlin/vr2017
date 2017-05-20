@@ -16,16 +16,20 @@ public class BonusMinion : Minion {
       //  Debug.Log("Popping new item");
         float p = Random.value;
 
-        if (p < 0.9)
+        if (p > 0.9)
         {
             Item clone = Instantiate(potion);
             clone.transform.position = transform.position;
         }else if (p < 0.95)
         {
-           // item = new Sword();
-        }else
+            Debug.Log("Hat");
+            Item clone = Instantiate(hat);
+            clone.transform.position = transform.position;
+            // item = new Sword();
+        }
+        else
         {
-            //item = new Hat();
+           
         }
     }
 
