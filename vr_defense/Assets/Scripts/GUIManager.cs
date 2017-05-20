@@ -90,7 +90,7 @@ public class GUIManager : MonoBehaviour
 
     public void UpdateScore(float hp, float xp)
     {
-        Debug.Log("UPDATED SCORE");
+       // Debug.Log("UPDATED SCORE");
         string score = "";
         score += "HP : " + hp + "\n";
         score += "XP : " + xp + "\n";

@@ -16,18 +16,20 @@ public class BonusMinion : Minion {
       //  Debug.Log("Popping new item");
         float p = Random.value;
 
-        if (p < 0.1)
+        if (p < 0.85)
         {
             Item clone = Instantiate(potion);
             clone.transform.position = transform.position;
-        }else if (p < 0.95)
+        }
+        else if (p < 0.95)
         {
             GameObject.Find("Sword").GetComponent<Sword>().generateSword();
             Debug.Log("New Sword!");
         }
-        else
-        {
-            //item = new Hat();
+        else { 
+            Debug.Log("Hat");
+            Item clone = Instantiate(hat);
+            clone.transform.position = transform.position;
         }
     }
 
