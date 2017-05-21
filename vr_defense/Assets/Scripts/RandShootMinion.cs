@@ -21,6 +21,7 @@ public class RandShootMinion : Minion {
 
         generalDirection = Quaternion.Euler( horizontalVariation, verticalVariation, 0) * generalDirection;
 
+        clone.body.angularVelocity = new Vector3(Random.value * 10f, Random.value * 10, Random.value * 10f);
         clone.body.velocity = generalDirection.normalized * projectileSpeed;
         clone.SetSource(this);
 

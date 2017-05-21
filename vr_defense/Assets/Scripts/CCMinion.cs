@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class CCMinion : Minion {
 
-    override protected float AttackDistance() { return 1.0f; }
+    override protected float AttackDistance() { return 0.5f; }
 
     override protected void Attack() {
-        GameObject.Find("Player").GetComponent<Player>().Hit(AttackDamage()) ;
-
+        ShiedlSpell shield = GameObject.Find("ShieldSpell").GetComponent<ShiedlSpell>();
+        if (shield.activated)
+        {
+            shield.hit(AttackDamage());
+        }
+        else
+        {
+            GameObject.Find("Player").GetComponent<Player>().Hit(AttackDamage());
+        }
     }
 
 }

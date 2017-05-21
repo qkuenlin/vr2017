@@ -17,12 +17,13 @@ public class FireSpell : Spell {
 	// Use this for initialization
 	void Start () {
         power = 1f;
+        power_inc = 1.5f;
         restTime = 0.8f;
 	}
 
     public override string SpellType() 
     {
-        return "Fire";
+        return "FIRE";
     }
 
 

@@ -16,12 +16,18 @@ public class GUIManager : MonoBehaviour
 
     public Text scoreText;
     public Text Main_Headline;
+    public Text Sub_text;
+
+    public Text ThunderCost;
+    public Text FireCost;
+    public Text ShieldCost;
 
     public float maxTimer = 2f;
 
     private GameManager.Mode previousState;
 
     private float timer;
+    public float sub_text_timer = 0;
 
 
     // Use this for initialization
@@ -36,6 +42,10 @@ public class GUIManager : MonoBehaviour
     {
         string set_text = "";
         float color = 0;
+
+        ThunderCost.text = "";
+        FireCost.text = "";
+        ShieldCost.text = "";
 
         switch (gameManager.mode)
         {
@@ -62,6 +72,11 @@ public class GUIManager : MonoBehaviour
                         set_text = ""+ Mathf.CeilToInt(count);
                         color = 1 - (Mathf.Ceil(count) - count);
                     }
+
+                    ThunderCost.text = thunder.getCost().ToString() + " XP";
+                    FireCost.text = fire.getCost().ToString() + " XP";
+                    ShieldCost.text = shield.getCost().ToString() + " XP";
+
                     break;
                 }
             case GameManager.Mode.WAVE:
@@ -79,11 +94,23 @@ public class GUIManager : MonoBehaviour
                     }
                     break;
                 }
+            case GameManager.Mode.DEAD:
+                {
+                    scoreText.text = "";
+                    set_text = "YOU DIED\n\n\n SCORE: " + GameObject.Find("Player").GetComponent<Player>().getScore();
+                    color = 1.0f;
+                    break;
+                }
         }
 
         Main_Headline.text = set_text;
         color *= color;
-        Main_Headline.color = new Color(color, color, color);
+        Main_Headline.color = new Color(1f, 1f, 1f, color);
+
+        float color_subText = sub_text_timer / 2f;
+        Sub_text.color = new Color(1f, 1f, 1f, color_subText);
+
+        sub_text_timer -= Time.deltaTime;
 
         //update player data
     }
@@ -95,5 +122,11 @@ public class GUIManager : MonoBehaviour
         score += "HP : " + hp + "\n";
         score += "XP : " + xp + "\n";
         scoreText.text = score;
+    }
+
+    public void setSub(string text)
+    {
+        sub_text_timer = 2f;
+        Sub_text.text = text;
     }
 }

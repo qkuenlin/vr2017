@@ -23,6 +23,7 @@ public abstract class Minion : MonoBehaviour {
     public void SetLevel(uint lvl)
     {
         level = lvl;
+        HealthPoints = lvl;
     }
 
     protected bool Dead() { return dead; }
@@ -44,17 +45,20 @@ public abstract class Minion : MonoBehaviour {
 
     public float Hit(float damage, string spellType)
     {
+
         //Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
-        if (spellType != resistance)
-        {
-            HealthPoints -= damage;
+
+
+        gameObject.GetComponent<Renderer>().material.color *= 0.6f;
+
+        HealthPoints -= damage;
             if (HealthPoints <= 0f && !dead)
             {
                 Die();
                 return ExperiencePoints();
    
             }
-        }
+
         return 0f;
     }
 
@@ -75,7 +79,7 @@ public abstract class Minion : MonoBehaviour {
 	// Use this for initialization
 	void Start()
     {
-        HealthPoints = 1;
+        HealthPoints = level;
         level = 1;
         //Debug.Log("created a minion");
         body.velocity = new Vector3(0, 0, -1f);
@@ -95,13 +99,12 @@ public abstract class Minion : MonoBehaviour {
                 p = (p - 0.5f) * (Mathf.PI / 2f);
                 direction = new Vector3(Mathf.Sin(p), 0f, Mathf.Cos(p)) * speed * (-1f);
             }
-            Vector3 target = new Vector3(0f, 0f, 0f);//this will be replaced by the player's position
-
+            Vector3 target = new Vector3(0f,0f,0f);//this will be replaced by the player's position
             //the final velocity is a mean between a random direction and the target's direction
             //this rouhgly ensures that the minion goes towards the player
             body.velocity = (0.7f * direction + 0.3f * (target - transform.position).normalized).normalized * speed;
 
-            Vector3 playerFloorPos = GameObject.Find("Player").transform.position;
+            Vector3 playerFloorPos = GameObject.Find("headCamera").transform.position;
             playerFloorPos.y = 0f;
             //Debug.Log(Vector3.Distance(playerFloorPos, transform.position) );
             if (Vector3.Distance(playerFloorPos, transform.position) < AttackDistance())

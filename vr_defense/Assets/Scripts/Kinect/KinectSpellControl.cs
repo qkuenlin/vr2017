@@ -17,16 +17,11 @@ public class KinectSpellControl : MonoBehaviour
     public ThunderSpell ts;
     public ShiedlSpell ss;
 
-    public Sword sword;
-
-    private ThunderBall tb;
-
     private Vector3[] HandPPos;
-    private Vector3[] HandPPPos;
 
     private float[] HandCoolDown;
 
-    private enum HandUse { IDLE, FIRE, LIGHTNING, SHIELD, SWORD, REST };
+    private enum HandUse { IDLE, FIRE, LIGHTNING, SHIELD, REST };
 
     private HandUse[] handUse;
 
@@ -49,6 +44,10 @@ public class KinectSpellControl : MonoBehaviour
 
             /* LEFT HAND MANAGER */
             HandManager(1);
+        }
+        else
+        {
+            handUse = new HandUse[] { HandUse.IDLE, HandUse.IDLE };
         }
     }
 
@@ -87,27 +86,19 @@ public class KinectSpellControl : MonoBehaviour
                     ShieldManager(Hand.state, newPos, w_h, headPos);
                     break;
                 }
-            case HandUse.SWORD:
-                {
-                    SwordManager(Hand.state, newPos, w_h);
-                    break;
-                }
             case HandUse.IDLE:
                 {
                     if (Hand.state.Equals(HandState.Closed) && newPos.y > headPos.y && handUse[1 - w_h] != HandUse.LIGHTNING)
                     {
                         handUse[w_h] = HandUse.LIGHTNING;
-                        tb = ts.newThunderBall();
                     }
-                    else if (Hand.state.Equals(HandState.Open) && newPos.z + 0.4 > headPos.z && handUse[1 - w_h] != HandUse.SHIELD) // can only have one shield at a time
+                    else if (Hand.state.Equals(HandState.Open) && newPos.z + 0.5 > headPos.z) // can only have one shield at a time
                     {
                         handUse[w_h] = HandUse.SHIELD;
-                        ss.ActivateShield();
-                    }
-                    else if(Hand.state.Equals(HandState.Closed) && newPos.y -0.4 < headPos.y && handUse[1 - w_h] != HandUse.SWORD)
-                    {
-                        handUse[w_h] = HandUse.SWORD;
-                        sword.gameObject.SetActive(true);
+                        if(handUse[1-w_h] == HandUse.SHIELD)
+                        {
+                            ss.ActivateShield();
+                        }
                     }
                     else if (Hand.state.Equals(HandState.Closed))
                     {
@@ -134,15 +125,14 @@ public class KinectSpellControl : MonoBehaviour
     {
         if (hs.Equals(HandState.Open) || pos.y < headPos.y)
         {
-            tb.Release();
+            ts.thunderBall.Release();
             handUse[w_h] = HandUse.REST;
             HandCoolDown[w_h] = ts.getRestTime();
-            Destroy(tb);
         }
         else
         {
-            Vector3 target = new Vector3(pos.x, 0, 15f + 8 * pos.z);
-            tb.Charge(target);
+            Vector3 target = new Vector3(pos.x, 0, 25f + 8 * pos.z);
+            ts.thunderBall.Charge(target);
         }
     }
 
@@ -159,9 +149,11 @@ public class KinectSpellControl : MonoBehaviour
 
             float speed = 500f * direction.sqrMagnitude / Time.deltaTime;
 
+            speed = Mathf.Clamp(speed, 2f, 10f);
+
             Collider[] hitCollider = Physics.OverlapSphere(pos, 0.5f);
             float radius = 1f;
-            while(hitCollider.Length <= 0 || radius <= 20f)
+            while (hitCollider.Length <= 0 || radius <= 20f)
             {
                 hitCollider = Physics.OverlapSphere(pos, ++radius);
             }
@@ -189,14 +181,17 @@ public class KinectSpellControl : MonoBehaviour
 
     void ShieldManager(HandState hs, Vector3 pos, int w_h, Vector3 spinePos)
     {
-        if (!hs.Equals(HandState.Open) || pos.z + 0.3 < spinePos.z)
+        if (!hs.Equals(HandState.Open) || pos.z + 0.4 < spinePos.z || ss.isDown)
         {
-            ss.DesactivateSheidl();
+            ss.DesactivateShield();
             handUse[w_h] = HandUse.REST;
+            handUse[1-w_h] = HandUse.REST;
             HandCoolDown[w_h] = ss.getRestTime();
+            HandCoolDown[1-w_h] = ss.getRestTime();
         }
     }
 
+    /*
     void SwordManager(HandState hs, Vector3 pos, int w_h)
     {
         if (hs.Equals(HandState.Open))
@@ -206,4 +201,5 @@ public class KinectSpellControl : MonoBehaviour
             HandCoolDown[w_h] = 0.2f;
         }
     }
+    */
 }

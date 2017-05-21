@@ -41,7 +41,7 @@ public class MinionSpawnPoint : MonoBehaviour {
     {
         float p = Random.value;
         Minion clone;
-        if (p < 0.2)//10% chance that the new minion is a bonus one
+        if (p < 0.8)//10% chance that the new minion is a bonus one
         {
             clone = Instantiate(minion);
             //deadMinionsCount++;//if it's a bonus minion, we count it as dead since it doesn't need to die to finish the wave

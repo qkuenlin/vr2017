@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
 
     float healthPoints;
     float experiencePoints;
+    float score;
+
     Vector3 position;
 
     public float HP()
@@ -24,14 +26,14 @@ public class Player : MonoBehaviour {
     public void GiveXP(float XP)
     {
         experiencePoints += XP;
+        score += Mathf.Max(0,XP);
         GameObject.Find("Canvas").GetComponent<GUIManager>().UpdateScore(healthPoints,experiencePoints);
     }
 
     public void Hit(float damage)
     {
-        damage -= shield.ShieldFactor();
-        healthPoints -= damage;
-        Debug.Log("you've been hit and lost " + damage + " health points");
+        healthPoints -= Mathf.Max(damage,0);
+        //Debug.Log("you've been hit and lost " + damage + " health points");
         if (healthPoints < 0.0f)
         {
             Die();
@@ -43,14 +45,29 @@ public class Player : MonoBehaviour {
 
     }
 
+    public float getScore()
+    {
+        return score;
+    }
+
+    public void Heal(float hp)
+    {
+
+        healthPoints += hp;
+        GameObject.Find("Canvas").GetComponent<GUIManager>().UpdateScore(healthPoints, experiencePoints);
+
+    }
+
     void Die()
     {
         Debug.Log("You're dead, mate");
+        GameObject.Find("GameManager").GetComponent<GameManager>().GameOver();
+
     }
 
     Vector3 HeadPosition()
     {
-        return position+new Vector3(0,2,0);
+        return position+new Vector3(0,1,0);
     }
 
     /**how to handle the various collisions with 
@@ -58,7 +75,7 @@ public class Player : MonoBehaviour {
      - Items
      - Menus
      There might be a better way to do it but I don't know of it*/
-    void OnTriggerEnter(Collider col)
+    /*void OnTriggerEnter(Collider col)
     {
         Potion potion = (Potion)col.GetComponent("Potion");
         if(potion != null)
@@ -70,7 +87,7 @@ public class Player : MonoBehaviour {
         {
 
         }       
-    }
+    }*/
 
     // Use this for initialization
     void Start () {

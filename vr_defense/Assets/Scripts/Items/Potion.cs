@@ -21,9 +21,19 @@ public class Potion : Item {
         Vector3 target = GameObject.Find("headCamera").transform.position;
         body.velocity = (target-transform.position).normalized* speed;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    virtual protected void OnTriggerEnter(Collider col)
+    {
+        Debug.Log(col.gameObject.name);
+        if (col.gameObject.name == "headCamera")
+        {
+            GameObject.Find("Player").GetComponent<Player>().Heal(HealthPoints());
+
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }

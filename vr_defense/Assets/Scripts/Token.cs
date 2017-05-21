@@ -7,26 +7,18 @@ public class Token : MonoBehaviour {
     public Spell spell;
     public GameObject ob;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    virtual protected void OnTriggerEnter(Collider col)
+    public void OnTriggerEnter(Collider col)
     {
-        Debug.Log("smt touch me! " + col);
-        float price = 5 * spell.getLevel();
-        if (GameObject.Find("Player").GetComponent<Player>().XP() > price)
+        Debug.Log("token " + col.gameObject.name);
+        if (col.gameObject.name == "R" || col.gameObject.name == "L")
         {
-            GameObject.Find("Player").GetComponent<Player>().GiveXP(-price);
-            spell.upgrade();
+            if (GameObject.Find("Player").GetComponent<Player>().XP() > spell.getCost())
+            {
+                GameObject.Find("Player").GetComponent<Player>().GiveXP(-spell.getCost());
+                spell.upgrade();
+            }
         }
-        
     }
 
     public void setActive(bool b)

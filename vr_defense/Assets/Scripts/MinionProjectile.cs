@@ -20,11 +20,15 @@ public class MinionProjectile : MonoBehaviour
 
     virtual protected void OnTriggerEnter(Collider col)
     {
-        Player player = (Player)col.GetComponent("Player");
-        if (player != null)
+       // Debug.Log("projectile " + col.gameObject.name);
+        if (col.gameObject.name == "headCamera")
         {
-            Debug.Log("player hit by projectile !");
-            player.Hit(Damage());
+             GameObject.Find("Player").GetComponent<Player>().Hit(Damage()) ;
+
+        }else if(col.gameObject.name == "Shield")
+        {
+            GameObject.Find("ShieldSpell").GetComponent<ShiedlSpell>().hit(Damage());
+            Destroy(gameObject);
         }
     }
 

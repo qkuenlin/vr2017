@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     public WaveManager waveManager;
     public MenuManager menuManager;
 
-    public enum Mode {IDLE,WAVE,MENU};
+    public enum Mode {IDLE,WAVE,MENU,DEAD};
 
     public Mode mode = Mode.IDLE;
 
@@ -25,6 +25,13 @@ public class GameManager : MonoBehaviour {
         return menuManager.getCountdown();
     }
 
+    public void GameOver()
+    {
+        menuManager.Pause();
+        waveManager.Pause();
+        mode = Mode.DEAD;
+        Debug.Log("gameover");
+    }
 
     // Update is called once per frame
     void Update () {
@@ -62,6 +69,8 @@ public class GameManager : MonoBehaviour {
                     }
                     break;
                 }
+            default: break;
         }
+
 	}
 }

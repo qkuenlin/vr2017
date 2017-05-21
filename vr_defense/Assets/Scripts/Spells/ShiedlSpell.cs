@@ -2,28 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShiedlSpell : Spell {
+public class ShiedlSpell : Spell
+{
 
     public bool activated = false;
-    public const float strength = 10.0f;
+    public const float strength = 5.0f;
+    private float life;
     public GameObject shield;
 
-    public float ShieldFactor()
-    {
-        if (activated)
-        {
-            return level * strength;
-        }
-        return 0.0f;
-    }
+    public bool isDown = false;
 
     public void ActivateShield()
     {
         activated = true;
+        life = strength * power;
         shield.SetActive(true);
+        isDown = false;
     }
 
-    public void DesactivateSheidl()
+    public void DesactivateShield()
     {
         activated = false;
         shield.SetActive(false);
@@ -31,18 +28,27 @@ public class ShiedlSpell : Spell {
 
     public override string SpellType()
     {
-        return "Shield";
+        return "SHIELD";
     }
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         restTime = 2f;
+        power_inc = 1.4f;
         shield.SetActive(false);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    public void hit(float damage)
+    {
+        life -= damage;
+        Debug.Log("Life; " + life);
+        if (life <= 0)
+        {
+            Debug.Log("shield down");
+            isDown = true;
+            DesactivateShield();
+        }
+    }
 }

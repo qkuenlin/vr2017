@@ -6,20 +6,36 @@ public class Hat : Item {
 
     public Rigidbody body;
     const float timeToTarget = 7f;
+    float speed = 2.5f;
 
 	// Use this for initialization
 	void Start () {
-        /*float distance = transform.position.magnitude;
-        Vector3 groundVector = transform.position;
-        groundVector.y = 0f;
-        float theta = Vector3.Angle(groundVector, new Vector3(0f, 0f, 1f));
-        float playerHeight = 2f;
-        body.velocity = -groundVector/timeToTarget;
-        body.velocity.Set(body.velocity.x,10*playerHeight / timeToTarget + 0.5f * 9.81f * timeToTarget,body.velocity.z);*/
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        Destroy(gameObject, 10);
+        Vector3 target = GameObject.Find("headCamera").transform.position;
+        body.velocity = (target - transform.position).normalized * speed;
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.name == "headCamera") {
+            int p = Random.Range(0, 3);
+            if (p == 0)
+            {
+                GameObject.Find("FireballSpell").GetComponent<FireSpell> ().upgrade();
+            }else if (p == 1)
+            {
+                GameObject.Find("ThunderSpell").GetComponent<ThunderSpell>().upgrade();
+            }
+            else
+            {
+                GameObject.Find("ShieldSpell").GetComponent<ShiedlSpell>().upgrade();
+            }
+
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
