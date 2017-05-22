@@ -70,7 +70,6 @@ public class ThunderBall : SpellProjectile
         sphereCollider.radius = 0f;
         transform.localScale.Set(0f, 0f, 0f);
         activated = false;
-        transform.position = new Vector3(0, -100, 0);
         //effects and attacks
     }
 
