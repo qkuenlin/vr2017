@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
     public WaveManager waveManager;
     public MenuManager menuManager;
 
-    public enum Mode {IDLE,WAVE,MENU};
+    public enum Mode {IDLE,WAVE,MENU,DEAD};
 
     public Mode mode = Mode.IDLE;
 
@@ -25,9 +26,23 @@ public class GameManager : MonoBehaviour {
         return menuManager.getCountdown();
     }
 
+    public void GameOver()
+    {
+        menuManager.Pause();
+        waveManager.Pause();
+        mode = Mode.DEAD;
+        Debug.Log("gameover");
+    }
 
     // Update is called once per frame
     void Update () {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.UnloadScene(SceneManager.GetActiveScene());
+            SceneManager.LoadScene("game");
+        }
+
+
         switch (mode)
         {
             case Mode.IDLE:
@@ -62,6 +77,8 @@ public class GameManager : MonoBehaviour {
                     }
                     break;
                 }
+            default: break;
         }
+
 	}
 }

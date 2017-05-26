@@ -13,6 +13,7 @@ public class HeadShootMinion : Minion {
         MinionProjectile clone = Instantiate(projectile);
         clone.body.transform.position = transform.position;
         clone.body.velocity = (GameObject.Find("headCamera").transform.position - transform.position).normalized*projectileSpeed;
+        clone.body.angularVelocity = new Vector3(Random.value*10f,Random.value*10,Random.value*10f);
         clone.SetSource(this);
 
     }

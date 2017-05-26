@@ -9,24 +9,25 @@ public class ThunderSpell : Spell {
 
     public override string SpellType()
     {
-        return "Thunder";
+        return "THUNDER";
     }
 
-    public ThunderBall newThunderBall()
+    /*public ThunderBall newThunderBall()
     {
         ThunderBall clone = Instantiate(thunderBall);
         clone.SetSource(this);
         return clone;
-    }
+    }*/
 
     void Start()
     {
         restTime = 3f;
         power = 1f;
+        power_inc = 1.3f;
         // Instantiate for mouse control //
-        Instantiate(thunderBall);
+        thunderBall = Instantiate(thunderBall);
         thunderBall.SetSource(this);
-        
+        Debug.Log("thunderball instantiated");
     }
 
     // Update is called once per frame

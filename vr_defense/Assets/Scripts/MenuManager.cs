@@ -46,9 +46,11 @@ public class MenuManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        
         fireToken.setActive(false);
         thunderToken.setActive(false);
         shieldToken.setActive(false);
+        
     }
 	
 	// Update is called once per frame
@@ -60,9 +62,11 @@ public class MenuManager : MonoBehaviour {
 
         if ( countdown <= 0)
         {
+            
             fireToken.setActive(false);
             thunderToken.setActive(false);
             shieldToken.setActive(false);
+            
             done = true;
         }
 	}

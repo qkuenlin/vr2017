@@ -7,8 +7,9 @@ public class Spell : MonoBehaviour {
     public Player wizard;
 
     protected uint level = 1;
-    protected float power = 0.0f;
+    protected float power = 1.0f;
     protected float restTime;
+    protected float power_inc; 
 
     public void notifyHit(Minion minion)
     {
@@ -34,8 +35,9 @@ public class Spell : MonoBehaviour {
     {
         level += 1;
         restTime *= 0.95f;
-        power *= 1.1f;
+        power *= power_inc;
         Debug.Log(SpellType() + " has been upgraded! level=" + level + "  rest time=" + restTime + "  power=" + power);
+        GameObject.Find("Canvas").GetComponent<GUIManager>().setSub(SpellType() + " HAS BEEN UPGRADED TO LEVEL " + level);
     }
 
     virtual public float Damage()
@@ -45,7 +47,7 @@ public class Spell : MonoBehaviour {
 
     virtual public string SpellType()
     {
-        return "none";
+        return "NONE";
     }
 
 	// Use this for initialization
@@ -57,4 +59,9 @@ public class Spell : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public float getCost()
+    {
+        return 4 * level;
+    }
 }

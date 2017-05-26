@@ -6,6 +6,7 @@ public class ThunderBall : SpellProjectile
 {
     float chargeStart;
     bool charging = false;
+    bool activated = false;
 
     float maxCharge = 4.0f;
     float radiusSpeed = 0.4f;//speed at which the radius increase (radius = radiusSpeed*chargeTime)
@@ -58,9 +59,6 @@ public class ThunderBall : SpellProjectile
 
         transform.localScale.Set(radius, radius, radius);
         transform.position = target;
-
-        Debug.Log(target + "   " + radius);
-
     }
 
     public void Release()
@@ -71,19 +69,25 @@ public class ThunderBall : SpellProjectile
         sphereCollider.transform.localScale = new Vector3(0f, 0f, 0f);
         sphereCollider.radius = 0f;
         transform.localScale.Set(0f, 0f, 0f);
+        activated = false;
         //effects and attacks
     }
 
     // Use this for initialization
     void Start()
     {
+        transform.position = new Vector3(0, -100, 0);
+    }
 
+    public void Activate()
+    {
+        activated = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1))
+        if ( Input.GetMouseButton(1))
         {
             Vector3 target = Input.mousePosition;
             target.Set(10f * (target.x / Screen.width - 0.5f), 0f, 7f + 10f * (target.y / Screen.height - 0.5f));

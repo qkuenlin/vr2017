@@ -24,6 +24,8 @@ public class KinectHandControl : MonoBehaviour
 
     public HandState state;
 
+    public Vector3 HipPosition; 
+
     // Update is called once per frame
     void Update()
     {
@@ -56,40 +58,71 @@ public class KinectHandControl : MonoBehaviour
         if (updatePosition)
         {
             Windows.Kinect.Joint hand;
+            Windows.Kinect.Joint hip;
 
             if (rightHand)
             {
                 hand = data[bodyNbr].Joints[JointType.HandRight];
+                hip = data[bodyNbr].Joints[JointType.HipLeft];
             }
             else
             {
                 hand = data[bodyNbr].Joints[JointType.HandLeft];
+                hip = data[bodyNbr].Joints[JointType.HipRight];
             }
 
             CameraSpacePoint pos = hand.Position;
             Vector3 newPos = new Vector3(pos.X, pos.Y, pos.Z);
+
+
+            CameraSpacePoint hippos = hand.Position;
+            Vector3 hipnewPos = new Vector3(hippos.X, hippos.Y, hippos.Z);
+
+
             if (mirrorX)
+            {
                 newPos.x = -newPos.x;
+                hipnewPos.x = -hipnewPos.x;
+            }
             if (mirrorZ)
+            {
                 newPos.z = -newPos.z;
+                hipnewPos.z = -hipnewPos.z;
+            }
 
             newPos += offset;
 
             if (hand.TrackingState == TrackingState.Tracked)
             {
                 newPos = Vector3.Lerp(transformToSet.localPosition, newPos, expSmoothWeight * Time.deltaTime * 60);
+                hipnewPos = Vector3.Lerp(HipPosition, hipnewPos, expSmoothWeight * Time.deltaTime * 60);
+
             }
             else
             {
                 newPos = Vector3.Lerp(transformToSet.localPosition, newPos, (expSmoothWeight * Time.deltaTime * 60 * 0.2f));
+                hipnewPos = Vector3.Lerp(HipPosition, hipnewPos, expSmoothWeight * Time.deltaTime * 60);
+
             }
 
             transformToSet.localPosition = newPos;
+
+            HipPosition = hipnewPos;
+
 
             if (rightHand)
                 state = data[bodyNbr].HandRightState;
             else
                 state = data[bodyNbr].HandLeftState;
+        }
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        Minion minion = (Minion)col.GetComponent("Minion");
+        if (minion != null)
+        {
+            minion.Hit(1f, "fist");
         }
     }
 }
