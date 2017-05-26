@@ -45,10 +45,6 @@ public abstract class Minion : MonoBehaviour {
 
     public float Hit(float damage, string spellType)
     {
-
-        //Debug.Log("MINION HIT ! "+gameObject.name+" received "+damage+" damage of type "+spellType);
-
-
         gameObject.GetComponent<Renderer>().material.color *= 0.6f;
 
         HealthPoints -= damage;
@@ -65,7 +61,6 @@ public abstract class Minion : MonoBehaviour {
     protected void Die()
     {
         dead = true;
-        //Debug.Log("a minion has died");
         AdditionalEffects();
         source.NotifyMinionDeath();
         Destroy(gameObject, 0.5f);//die after half a second
@@ -81,7 +76,6 @@ public abstract class Minion : MonoBehaviour {
     {
         HealthPoints = level;
         level = 1;
-        //Debug.Log("created a minion");
         body.velocity = new Vector3(0, 0, -1f);
     }
 	

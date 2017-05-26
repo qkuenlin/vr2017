@@ -20,7 +20,6 @@ public class MinionProjectile : MonoBehaviour
 
     virtual protected void OnTriggerEnter(Collider col)
     {
-       // Debug.Log("projectile " + col.gameObject.name);
         if (col.gameObject.name == "headCamera")
         {
              GameObject.Find("Player").GetComponent<Player>().Hit(Damage()) ;

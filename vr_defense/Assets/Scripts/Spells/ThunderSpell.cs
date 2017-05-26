@@ -12,13 +12,6 @@ public class ThunderSpell : Spell {
         return "THUNDER";
     }
 
-    /*public ThunderBall newThunderBall()
-    {
-        ThunderBall clone = Instantiate(thunderBall);
-        clone.SetSource(this);
-        return clone;
-    }*/
-
     void Start()
     {
         restTime = 3f;
@@ -30,7 +23,4 @@ public class ThunderSpell : Spell {
         Debug.Log("thunderball instantiated");
     }
 
-    // Update is called once per frame
-    void Update () {
-    }
 }

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//The ShieldSpell inplements Spell.
+//It has its own healthpoints that are decreased everytime it hits a minion's rock
+//and is deactivated once those HPs are at 0
 public class ShiedlSpell : Spell
 {
 

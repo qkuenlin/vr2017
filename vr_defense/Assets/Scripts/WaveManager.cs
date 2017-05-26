@@ -84,21 +84,4 @@ public class WaveManager : MonoBehaviour
         Debug.Log("WaveManger started");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /* if (AllDone())
-         {
-             Debug.Log("wave " + waveCount + " is over");
-             waveCount++;
-             //Pause();
-         }*/
-        /*
-        if (AllDone() && !paused)
-        {
-            Debug.Log("Wave " + waveCount + " is over, launching new wave");
-            waveCount++;
-            LaunchWave();
-        }*/
-    }
 }

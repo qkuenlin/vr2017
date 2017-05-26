@@ -12,10 +12,6 @@ public class GameManager : MonoBehaviour {
 
     public Mode mode = Mode.IDLE;
 
-    // Use this for initialization
-    void Start () {
-	}
-	
     public uint WaveCount()
     {
         return waveManager.waveCount;

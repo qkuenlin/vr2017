@@ -22,8 +22,10 @@ public class Potion : Item {
         body.velocity = (target-transform.position).normalized* speed;
 	}
 
+    
     virtual protected void OnTriggerEnter(Collider col)
     {
+        //if the potion hits the player, it heals him or her
         Debug.Log(col.gameObject.name);
         if (col.gameObject.name == "headCamera")
         {
@@ -32,8 +34,4 @@ public class Potion : Item {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }

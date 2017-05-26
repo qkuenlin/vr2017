@@ -33,7 +33,6 @@ public class Player : MonoBehaviour {
     public void Hit(float damage)
     {
         healthPoints -= Mathf.Max(damage,0);
-        //Debug.Log("you've been hit and lost " + damage + " health points");
         if (healthPoints < 0.0f)
         {
             Die();
@@ -70,34 +69,13 @@ public class Player : MonoBehaviour {
         return position+new Vector3(0,1,0);
     }
 
-    /**how to handle the various collisions with 
-     - Minions
-     - Items
-     - Menus
-     There might be a better way to do it but I don't know of it*/
-    /*void OnTriggerEnter(Collider col)
-    {
-        Potion potion = (Potion)col.GetComponent("Potion");
-        if(potion != null)
-        {
-            healthPoints += potion.HealthPoints();
-            potion.Destroy();
-        }
-        else
-        {
-
-        }       
-    }*/
+  
 
     // Use this for initialization
     void Start () {
         healthPoints = 100;
         experiencePoints = 0;
         position.Set(0, 0, 0);
-
-        /*fire = GetComponent<FireSpell>();
-        thunder = GetComponent<ThunderSpell>();
-        shield = GetComponent<ShiedlSpell>();*/
 	}
 	
 	// Update is called once per frame

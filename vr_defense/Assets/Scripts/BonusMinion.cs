@@ -4,28 +4,27 @@ using UnityEngine;
 
 public class BonusMinion : Minion {
 
+    //all these are there for instantiation when the minion pops an item at its death
     public Potion potion;
     public Hat hat;
     public Sword sword;
 
     public const float timeToLive = 12f;
 
-    float spawnTime = 0f;
-    void PopItem()//TODO
+    void PopItem()
     {
-      //  Debug.Log("Popping new item");
         float p = Random.value;
 
+        //the popped item has a 90% chance to be a potion and a 10% chance to be a hat
         if (p < 0.9)
         {
             Item clone = Instantiate(potion);
-            // clone.transform.position.Set(transform.position.x, 1.6f, transform.position.z) ;
-            clone.transform.position = transform.position; //new Vector3(0, 0, 0f);
+            clone.transform.position = transform.position; 
         }
-        else if (p < 1.5)
+        else if (p < 1.0)
         {
             Item clone = Instantiate(hat);
-            clone.transform.position = transform.position;// - new Vector3(0,1,0); // new Vector3(0, 0, 0f);
+            clone.transform.position = transform.position;
 
         }
         else {
@@ -39,9 +38,10 @@ public class BonusMinion : Minion {
         PopItem();
     }
 
+    //This way the minion disappears after a while if it hasn't been destroyed before
     void Awake()
     {
-        Destroy(gameObject, 12f);
+        Destroy(gameObject, timeToLive);
     }
 
     void OnDestroy()

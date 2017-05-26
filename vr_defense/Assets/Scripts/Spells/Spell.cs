@@ -36,7 +36,7 @@ public class Spell : MonoBehaviour {
         level += 1;
         restTime *= 0.95f;
         power *= power_inc;
-        Debug.Log(SpellType() + " has been upgraded! level=" + level + "  rest time=" + restTime + "  power=" + power);
+        //Debug.Log(SpellType() + " has been upgraded! level=" + level + "  rest time=" + restTime + "  power=" + power);
         GameObject.Find("Canvas").GetComponent<GUIManager>().setSub(SpellType() + " HAS BEEN UPGRADED TO LEVEL " + level);
     }
 

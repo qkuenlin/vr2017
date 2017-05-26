@@ -83,8 +83,6 @@ public class MinionSpawnPoint : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
-        //Debug.Log(doneSpawning + " " + (Time.time - spawnTime) + " "+spawnedMinionsCount);
         /*This spawns as many minions as requested by the WaveManager*/
         if (!doneSpawning && Time.time-spawnTime>spawnInterval && spawnedMinionsCount<spawnedMinionsTarget)
         {
